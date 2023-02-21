@@ -1,0 +1,1533 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Chapter 14: The General Linear Model &#8212; R Code and figures for Statistical Thinking: Analyzing Data in an Uncertain World</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 15: Comparing means" href="15-ComparingMeans.html" />
+    <link rel="prev" title="Chapter 13: Modeling continuous relationships" href="13-ContinuousRelationships.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">R Code and figures for Statistical Thinking: Analyzing Data in an Uncertain World</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    <no title>
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Intro.html">
+   Chapter 1: Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-Data.html">
+   Chapter 2: Working with data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-SummarizingData.html">
+   Chapter 3: Summarizing data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-VisualizingData.html">
+   Chapter 4: Data Visualization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-FittingModels.html">
+   Chapter 5: Fitting models to data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Probability.html">
+   Chapter 6: Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-Sampling.html">
+   Chapter 7: Sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-Resampling.html">
+   Chapter 8: Resampling and simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-HypothesisTesting.html">
+   Chapter 9: Hypothesis testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-ConfIntEffectSize.html">
+   Chapter 10: Quantifying effects and designing studies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="11-BayesianStatistics.html">
+   Chapter 11: Bayesian statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12-CategoricalRelationships.html">
+   Chapter 12: Modeling categorical relationships
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="13-ContinuousRelationships.html">
+   Chapter 13: Modeling continuous relationships
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 14: The General Linear Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="15-ComparingMeans.html">
+   Chapter 15: Comparing means
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="16-MultivariateStats.html">
+   Chapter 16: Multivariate statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="17-PracticalExamples.html">
+   Chapter 17: Practical statistical modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="18-DoingReproducibleResearch.html">
+   Chapter 18: Doing reproducible research
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/14-GeneralLinearModel.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/14-GeneralLinearModel.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-1">
+   Figure 14.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlation-test">
+   Correlation test
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-2">
+   Figure 14.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-1">
+   Table 14.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-model-output">
+   Linear model output
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression-output-for-study-time-and-prior-class">
+   Linear regression output for study time and prior class
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-3">
+   Figure 14.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-4">
+   Figure 14.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-model-for-caffeine">
+   Linear model for caffeine
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-model-result-for-caffeine-and-anxiety">
+   Linear model result for caffeine and anxiety
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-model-result-for-interaction">
+   Linear model result for interaction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#analysis-of-variance-result">
+   Analysis of variance result
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-5">
+   Figure 14.5
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-2">
+   Table 14.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-3">
+   Table 14.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-4">
+   Table 14.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-5">
+   Table 14.5
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Chapter 14: The General Linear Model</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-1">
+   Figure 14.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlation-test">
+   Correlation test
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-2">
+   Figure 14.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-1">
+   Table 14.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-model-output">
+   Linear model output
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-regression-output-for-study-time-and-prior-class">
+   Linear regression output for study time and prior class
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-3">
+   Figure 14.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-4">
+   Figure 14.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-model-for-caffeine">
+   Linear model for caffeine
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-model-result-for-caffeine-and-anxiety">
+   Linear model result for caffeine and anxiety
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-model-result-for-interaction">
+   Linear model result for interaction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#analysis-of-variance-result">
+   Analysis of variance result
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-14-5">
+   Figure 14.5
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-2">
+   Table 14.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-3">
+   Table 14.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-4">
+   Table 14.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-14-5">
+   Table 14.5
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-14-the-general-linear-model">
+<h1>Chapter 14: The General Linear Model<a class="headerlink" href="#chapter-14-the-general-linear-model" title="Permalink to this headline">#</a></h1>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">fivethirtyeight</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">cowplot</span><span class="p">)</span>
+<span class="nf">theme_set</span><span class="p">(</span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">))</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
+
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123456</span><span class="p">)</span><span class="w"> </span><span class="c1"># set random seed to exactly replicate results</span>
+<span class="n">opts_chunk</span><span class="o">$</span><span class="nf">set</span><span class="p">(</span><span class="n">tidy.opts</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">width.cutoff</span><span class="o">=</span><span class="m">80</span><span class="p">))</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">tibble.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">60</span><span class="p">)</span>
+
+<span class="c1"># load the NHANES data library</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">NHANES</span><span class="p">)</span>
+
+<span class="c1"># drop duplicated IDs within the NHANES dataset</span>
+<span class="n">NHANES</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">NHANES</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">distinct</span><span class="p">(</span><span class="n">ID</span><span class="p">,</span><span class="n">.keep_all</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="n">NHANES_adult</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">NHANES</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">(</span><span class="n">Weight</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">subset</span><span class="p">(</span><span class="n">Age</span><span class="o">&gt;=</span><span class="m">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching packages</span> ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2</span> 3.4.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr  </span> 1.0.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble </span> 3.1.8     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr  </span> 1.1.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr  </span> 1.3.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr</span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr  </span> 2.1.4     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats</span> 1.0.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Some larger datasets need to be installed separately, like senators and
+house_district_forecast. To install these, we recommend you install the
+fivethirtyeightdata package by running:
+install.packages(&#39;fivethirtyeightdata&#39;, repos =
+&#39;https://fivethirtyeightdata.github.io/drat/&#39;, type = &#39;source&#39;)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: lattice
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘caret’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:purrr’:
+
+    lift
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘MASS’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:dplyr’:
+
+    select
+</pre></div>
+</div>
+</div>
+</div>
+<section id="figure-14-1">
+<h2>Figure 14.1<a class="headerlink" href="#figure-14-1" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># create simulated data for example</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">12345</span><span class="p">)</span>
+
+<span class="c1"># the number of points that having a prior class increases grades</span>
+<span class="n">betas</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)</span>
+
+<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">    </span><span class="n">studyTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">3</span><span class="p">,</span>
+<span class="w">    </span><span class="n">priorClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">grade</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="n">studyTime</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">betas</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span>
+<span class="w">      </span><span class="n">priorClass</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">betas</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">+</span>
+<span class="w">      </span><span class="nf">round</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">))</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">studyTime</span><span class="p">,</span><span class="n">grade</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&#39;Study time (hours)&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;Grade (percent)&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlim</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylim</span><span class="p">(</span><span class="m">70</span><span class="p">,</span><span class="m">100</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/14-GeneralLinearModel_3_0.svg" src="_images/14-GeneralLinearModel_3_0.svg" /></div>
+</div>
+</section>
+<section id="correlation-test">
+<h2>Correlation test<a class="headerlink" href="#correlation-test" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute correlation between grades and study time</span>
+<span class="n">corTestResult</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cor.test</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">grade</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">studyTime</span><span class="p">)</span>
+<span class="n">corTestResult</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Pearson&#39;s product-moment correlation
+
+data:  df$grade and df$studyTime
+t = 2.0134, df = 6, p-value = 0.09073
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.1261283  0.9255245
+sample estimates:
+      cor 
+0.6349813 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-14-2">
+<h2>Figure 14.2<a class="headerlink" href="#figure-14-2" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lmResult</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">grade</span><span class="o">~</span><span class="n">studyTime</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="o">+</span><span class="nf">geom_abline</span><span class="p">(</span><span class="n">slope</span><span class="o">=</span><span class="n">lmResult</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">2</span><span class="p">],</span>
+<span class="w">                  </span><span class="n">intercept</span><span class="o">=</span><span class="n">lmResult</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">1</span><span class="p">],</span>
+<span class="w">                  </span><span class="n">color</span><span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">)</span>
+
+
+<span class="n">p3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="n">lmResult</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dotted&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&#39;segment&#39;</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">xend</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dashed&#39;</span><span class="p">,</span>
+<span class="w">           </span><span class="n">y</span><span class="o">=</span><span class="nf">predict</span><span class="p">(</span><span class="n">lmResult</span><span class="p">,</span><span class="n">newdata</span><span class="o">=</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">studyTime</span><span class="o">=</span><span class="m">2</span><span class="p">))[</span><span class="m">1</span><span class="p">],</span>
+<span class="w">           </span><span class="n">yend</span><span class="o">=</span><span class="nf">predict</span><span class="p">(</span><span class="n">lmResult</span><span class="p">,</span><span class="n">newdata</span><span class="o">=</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">studyTime</span><span class="o">=</span><span class="m">2</span><span class="p">))[</span><span class="m">1</span><span class="p">])</span><span class="w"> </span><span class="o">+</span>
+<span class="w">   </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&#39;segment&#39;</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">xend</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dashed&#39;</span><span class="p">,</span>
+<span class="w">           </span><span class="n">y</span><span class="o">=</span><span class="nf">predict</span><span class="p">(</span><span class="n">lmResult</span><span class="p">,</span><span class="n">newdata</span><span class="o">=</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">studyTime</span><span class="o">=</span><span class="m">2</span><span class="p">))[</span><span class="m">1</span><span class="p">],</span>
+<span class="w">           </span><span class="n">yend</span><span class="o">=</span><span class="nf">predict</span><span class="p">(</span><span class="n">lmResult</span><span class="p">,</span><span class="n">newdata</span><span class="o">=</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">studyTime</span><span class="o">=</span><span class="m">3</span><span class="p">))[</span><span class="m">1</span><span class="p">])</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/14-GeneralLinearModel_7_0.svg" src="_images/14-GeneralLinearModel_7_0.svg" /></div>
+</div>
+</section>
+<section id="table-14-1">
+<h2>Table 14.1<a class="headerlink" href="#table-14-1" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># create simulated data for regression to the mean example</span>
+
+<span class="n">nstudents</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span>
+
+<span class="n">readingScores</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">  </span><span class="c1">#random normal distribution of scores for test 1</span>
+<span class="w">  </span><span class="n">test1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nstudents</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">100</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">#random normal distribution of scores for test 2</span>
+<span class="w">  </span><span class="n">test2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nstudents</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">100</span>
+<span class="p">)</span>
+
+<span class="c1"># select the students in the bottom 25% on the first test</span>
+<span class="n">cutoff</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">quantile</span><span class="p">(</span><span class="n">readingScores</span><span class="o">$</span><span class="n">test1</span><span class="p">,</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span>
+
+<span class="n">readingScores</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">readingScores</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">badTest1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cutoff</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">badTest1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">summarize</span><span class="p">(</span>
+<span class="w">    </span><span class="n">`Test 1`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">test1</span><span class="p">),</span>
+<span class="w">    </span><span class="n">`Test 2`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">test2</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="n">readingScores</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">readingScores</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">rename</span><span class="p">(</span><span class="n">Score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V1</span><span class="p">)</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">readingScores</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Reading scores for Test 1 (which is lower, because it was the basis for selecting the students) and Test 2 (which is higher because it was independent from Test 1).&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Reading scores for Test 1 (which is lower, because it was the basis for selecting the students) and Test 2 (which is higher because it was independent from Test 1).
+
+|       |     Score|
+|:------|---------:|
+|Test 1 |  87.88674|
+|Test 2 | 100.72289|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="linear-model-output">
+<h2>Linear model output<a class="headerlink" href="#linear-model-output" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">lmResult</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = grade ~ studyTime, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-10.656  -2.719   0.125   4.703   7.469 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   76.156      5.161  14.756 6.09e-06 ***
+studyTime      4.313      2.142   2.013   0.0907 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 6.386 on 6 degrees of freedom
+Multiple R-squared:  0.4032,	Adjusted R-squared:  0.3037 
+F-statistic: 4.054 on 1 and 6 DF,  p-value: 0.09073
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="linear-regression-output-for-study-time-and-prior-class">
+<h2>Linear regression output for study time and prior class<a class="headerlink" href="#linear-regression-output-for-study-time-and-prior-class" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># perform linear regression for study time and prior class</span>
+
+<span class="c1"># must change priorClass to a factor variable</span>
+<span class="n">df</span><span class="o">$</span><span class="n">priorClass</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">priorClass</span><span class="p">)</span>
+
+<span class="n">lmResultTwoVars</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">grade</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">studyTime</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">priorClass</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">lmResultTwoVars</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = grade ~ studyTime + priorClass, data = df)
+
+Residuals:
+       1        2        3        4        5        6        7        8 
+ 3.58333  0.75000 -3.58333 -0.08333  0.75000 -6.41667  2.08333  2.91667 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   70.083      3.768  18.600 8.27e-06 ***
+studyTime      5.000      1.366   3.661   0.0146 *  
+priorClass1    9.167      2.879   3.184   0.0244 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 4.021 on 5 degrees of freedom
+Multiple R-squared:  0.8028,	Adjusted R-squared:  0.724 
+F-statistic: 10.18 on 2 and 5 DF,  p-value: 0.01726
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-14-3">
+<h2>Figure 14.3<a class="headerlink" href="#figure-14-3" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">studyTime</span><span class="p">,</span><span class="n">grade</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="n">priorClass</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">xlim</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">ylim</span><span class="p">(</span><span class="m">70</span><span class="p">,</span><span class="m">100</span><span class="p">)</span>
+
+
+<span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_abline</span><span class="p">(</span><span class="n">slope</span><span class="o">=</span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">2</span><span class="p">],</span>
+<span class="w">              </span><span class="n">intercept</span><span class="o">=</span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dotted&#39;</span><span class="p">)</span>
+
+
+<span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_abline</span><span class="p">(</span><span class="n">slope</span><span class="o">=</span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">2</span><span class="p">],</span>
+<span class="w">              </span><span class="n">intercept</span><span class="o">=</span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">+</span>
+<span class="w">                </span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">3</span><span class="p">],</span>
+<span class="w">              </span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dashed&#39;</span><span class="p">)</span>
+
+<span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="o">+</span>
+<span class="w">  </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&#39;segment&#39;</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">xend</span><span class="o">=</span><span class="m">2</span><span class="p">,</span>
+<span class="w">           </span><span class="n">y</span><span class="o">=</span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">+</span>
+<span class="w">             </span><span class="m">2</span><span class="o">*</span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">2</span><span class="p">],</span>
+<span class="w">           </span><span class="n">yend</span><span class="o">=</span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">+</span>
+<span class="w">             </span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">3</span><span class="p">]</span><span class="w"> </span><span class="o">+</span>
+<span class="w">             </span><span class="m">2</span><span class="o">*</span><span class="n">lmResultTwoVars</span><span class="o">$</span><span class="n">coefficients</span><span class="p">[</span><span class="m">2</span><span class="p">],</span>
+<span class="w">           </span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dotted&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_discrete</span><span class="p">(</span>
+<span class="w">    </span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
+<span class="w">    </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;No&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Yes&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Previous course&quot;</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+<span class=" -Color -Color-Cyan">ℹ</span> Please use `linewidth` instead.”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Continuous limits supplied to discrete scale.
+<span class=" -Color -Color-Cyan">ℹ</span> Did you mean `limits = factor(...)` or `scale_*_continuous()`?”
+</pre></div>
+</div>
+<img alt="_images/14-GeneralLinearModel_15_2.svg" src="_images/14-GeneralLinearModel_15_2.svg" /></div>
+</div>
+</section>
+<section id="figure-14-4">
+<h2>Figure 14.4<a class="headerlink" href="#figure-14-4" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">1234567</span><span class="p">)</span>
+
+<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="n">group</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">10</span><span class="p">),</span>
+<span class="w">            </span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">10</span><span class="p">)</span>
+<span class="w">          </span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">caffeine</span><span class="o">=</span><span class="nf">runif</span><span class="p">(</span><span class="nf">n</span><span class="p">())</span><span class="o">*</span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">speaking</span><span class="o">=</span><span class="m">0.5</span><span class="o">*</span><span class="n">caffeine</span><span class="o">*-</span><span class="n">group</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">group</span><span class="o">*</span><span class="m">20</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">20</span><span class="p">)</span><span class="o">*</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">anxiety</span><span class="o">=</span><span class="nf">ifelse</span><span class="p">(</span><span class="n">group</span><span class="o">==</span><span class="m">1</span><span class="p">,</span><span class="s">&#39;anxious&#39;</span><span class="p">,</span><span class="s">&#39;notAnxious&#39;</span><span class="p">))</span>
+
+<span class="c1"># perform linear regression with caffeine as independent variable</span>
+<span class="n">lmResultCaffeine</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">speaking</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">caffeine</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># compute linear regression adding anxiety to model</span>
+<span class="n">lmResultCafAnx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">speaking</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">caffeine</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">anxiety</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># compute linear regression including caffeine X anxiety interaction</span>
+<span class="n">lmResultInteraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span>
+<span class="w">  </span><span class="n">speaking</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">caffeine</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">anxiety</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">caffeine</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">anxiety</span><span class="p">,</span>
+<span class="w">  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span>
+<span class="p">)</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">caffeine</span><span class="p">,</span><span class="n">speaking</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">caffeine</span><span class="p">,</span><span class="n">speaking</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="n">anxiety</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">0.9</span><span class="p">))</span>
+
+<span class="n">df_anx</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">subset</span><span class="p">(</span><span class="n">anxiety</span><span class="o">==</span><span class="s">&#39;anxious&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lmResultInteraction</span><span class="o">$</span><span class="n">fitted.values</span><span class="p">[</span><span class="n">df</span><span class="o">$</span><span class="n">anxiety</span><span class="o">==</span><span class="s">&#39;anxious&#39;</span><span class="p">])</span>
+
+<span class="n">df_notanx</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">subset</span><span class="p">(</span><span class="n">anxiety</span><span class="o">==</span><span class="s">&#39;notAnxious&#39;</span><span class="p">)</span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lmResultInteraction</span><span class="o">$</span><span class="n">fitted.values</span><span class="p">[</span><span class="n">df</span><span class="o">$</span><span class="n">anxiety</span><span class="o">==</span><span class="s">&#39;notAnxious&#39;</span><span class="p">])</span>
+
+
+
+<span class="n">p3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">caffeine</span><span class="p">,</span><span class="n">speaking</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="n">anxiety</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">   </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">   </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">0.9</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_anx</span><span class="p">,</span>
+<span class="w">             </span><span class="nf">aes</span><span class="p">(</span><span class="n">caffeine</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dashed&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_notanx</span><span class="p">,</span>
+<span class="w">             </span><span class="nf">aes</span><span class="p">(</span><span class="n">caffeine</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dotted&#39;</span><span class="p">)</span>
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="o">=</span><span class="s">&#39;AUTO&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/14-GeneralLinearModel_17_0.svg" src="_images/14-GeneralLinearModel_17_0.svg" /></div>
+</div>
+</section>
+<section id="linear-model-for-caffeine">
+<h2>Linear model for caffeine<a class="headerlink" href="#linear-model-for-caffeine" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">lmResultCaffeine</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = speaking ~ caffeine, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-33.096 -16.024   5.014  16.453  26.979 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)  -7.4132     9.1653  -0.809    0.429
+caffeine      0.1676     0.1508   1.111    0.281
+
+Residual standard error: 19.19 on 18 degrees of freedom
+Multiple R-squared:  0.06419,	Adjusted R-squared:  0.0122 
+F-statistic: 1.235 on 1 and 18 DF,  p-value: 0.2811
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="linear-model-result-for-caffeine-and-anxiety">
+<h2>Linear model result for caffeine and anxiety<a class="headerlink" href="#linear-model-result-for-caffeine-and-anxiety" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">lmResultCafAnx</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = speaking ~ caffeine + anxiety, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-32.968  -9.743   1.351  10.530  25.361 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)       -12.5812     9.1967  -1.368    0.189
+caffeine            0.1313     0.1446   0.908    0.377
+anxietynotAnxious  14.2328     8.2324   1.729    0.102
+
+Residual standard error: 18.21 on 17 degrees of freedom
+Multiple R-squared:  0.2041,	Adjusted R-squared:  0.1105 
+F-statistic:  2.18 on 2 and 17 DF,  p-value: 0.1436
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="linear-model-result-for-interaction">
+<h2>Linear model result for interaction<a class="headerlink" href="#linear-model-result-for-interaction" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">lmResultInteraction</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = speaking ~ caffeine + anxiety + caffeine * anxiety, 
+    data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-11.385  -7.103  -0.444   6.171  13.458 
+
+Coefficients:
+                            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                 17.43085    5.43012   3.210 0.005461 ** 
+caffeine                    -0.47416    0.09664  -4.906 0.000158 ***
+anxietynotAnxious          -43.44873    7.79141  -5.576 4.17e-05 ***
+caffeine:anxietynotAnxious   1.08395    0.12931   8.382 3.01e-07 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 8.085 on 16 degrees of freedom
+Multiple R-squared:  0.8524,	Adjusted R-squared:  0.8247 
+F-statistic:  30.8 on 3 and 16 DF,  p-value: 7.014e-07
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analysis-of-variance-result">
+<h2>Analysis of variance result<a class="headerlink" href="#analysis-of-variance-result" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">anova</span><span class="p">(</span><span class="n">lmResultCafAnx</span><span class="p">,</span><span class="w"> </span><span class="n">lmResultInteraction</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A anova: 2 × 6</caption>
+<thead>
+	<tr><th></th><th scope=col>Res.Df</th><th scope=col>RSS</th><th scope=col>Df</th><th scope=col>Sum of Sq</th><th scope=col>F</th><th scope=col>Pr(&gt;F)</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td>17</td><td>5639.314</td><td>NA</td><td>      NA</td><td>      NA</td><td>         NA</td></tr>
+	<tr><th scope=row>2</th><td>16</td><td>1045.937</td><td> 1</td><td>4593.377</td><td>70.26621</td><td>3.00976e-07</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="figure-14-5">
+<h2>Figure 14.5<a class="headerlink" href="#figure-14-5" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">qq_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">100</span><span class="p">),</span>
+<span class="w">                </span><span class="n">unif</span><span class="o">=</span><span class="nf">runif</span><span class="p">(</span><span class="m">100</span><span class="p">))</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">qq_df</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="n">norm</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_qq</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_qq_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&#39;Normal data&#39;</span><span class="p">)</span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">qq_df</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="n">unif</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_qq</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_qq_line</span><span class="p">()</span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&#39;Non-normal data&#39;</span><span class="p">)</span>
+
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/14-GeneralLinearModel_27_0.svg" src="_images/14-GeneralLinearModel_27_0.svg" /></div>
+</div>
+</section>
+<section id="table-14-2">
+<h2>Table 14.2<a class="headerlink" href="#table-14-2" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># create dataframe with children with complete data on all variables</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">12345</span><span class="p">)</span>
+
+<span class="n">NHANES_child</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">NHANES</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">(</span><span class="n">Height</span><span class="p">,</span><span class="w"> </span><span class="n">Weight</span><span class="p">,</span><span class="w"> </span><span class="n">TVHrsDayChild</span><span class="p">,</span><span class="w"> </span><span class="n">HHIncomeMid</span><span class="p">,</span><span class="w"> </span><span class="n">CompHrsDayChild</span><span class="p">,</span><span class="w"> </span><span class="n">Age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Age</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">18</span><span class="p">)</span>
+
+<span class="c1"># create function to sample data and compute regression on in-sample and out-of-sample data</span>
+
+<span class="n">get_sample_predictions</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1"># generate a sample from NHANES</span>
+<span class="w">  </span><span class="n">orig_sample</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">    </span><span class="n">NHANES_child</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">sample_n</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1"># if shuffle is turned on, then randomly shuffle the weight variable</span>
+<span class="w">  </span><span class="nf">if </span><span class="p">(</span><span class="n">shuffle</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">orig_sample</span><span class="o">$</span><span class="n">Weight</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">orig_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="c1"># compute the regression line for Weight, as a function of several</span>
+<span class="w">  </span><span class="c1"># other variables (with all possible interactions between variables)</span>
+<span class="w">  </span><span class="n">heightRegressOrig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Weight</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">TVHrsDayChild</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">CompHrsDayChild</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">HHIncomeMid</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Age</span><span class="p">,</span>
+<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orig_sample</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="c1"># compute the predictions</span>
+<span class="w">  </span><span class="n">pred_orig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">heightRegressOrig</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1"># create a new sample from the same population</span>
+<span class="w">  </span><span class="n">new_sample</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">    </span><span class="n">NHANES_child</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">sample_n</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1"># use the model fom the original sample to predict the</span>
+<span class="w">  </span><span class="c1"># Weight values for the new sample</span>
+<span class="w">  </span><span class="n">pred_new</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">heightRegressOrig</span><span class="p">,</span><span class="w"> </span><span class="n">new_sample</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1"># return r-squared and rmse for original and new data</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">cor</span><span class="p">(</span><span class="n">pred_orig</span><span class="p">,</span><span class="w"> </span><span class="n">orig_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">cor</span><span class="p">(</span><span class="n">pred_new</span><span class="p">,</span><span class="w"> </span><span class="n">new_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">mean</span><span class="p">((</span><span class="n">pred_orig</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">orig_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="p">)),</span>
+<span class="w">    </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">mean</span><span class="p">((</span><span class="n">pred_new</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">new_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="p">))</span>
+<span class="w">  </span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="c1"># implement the function</span>
+<span class="n">sim_results</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">replicate</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="nf">get_sample_predictions</span><span class="p">(</span><span class="n">sample_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">48</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span>
+
+<span class="n">sim_results</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">t</span><span class="p">(</span><span class="n">sim_results</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">data.frame</span><span class="p">()</span>
+
+<span class="n">mean_rsquared</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">sim_results</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">summarize</span><span class="p">(</span>
+<span class="w">    </span><span class="n">`RMSE (original data)`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">X3</span><span class="p">),</span>
+<span class="w">    </span><span class="n">`RMSE (new data)`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">X4</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="c1"># using shuffled y variable to simulate null effect</span>
+
+<span class="n">sim_results</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">replicate</span><span class="p">(</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="nf">get_sample_predictions</span><span class="p">(</span><span class="n">sample_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">48</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span>
+
+<span class="n">sim_results</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">t</span><span class="p">(</span><span class="n">sim_results</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">data.frame</span><span class="p">()</span>
+
+<span class="n">mean_rsquared_sim</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">sim_results</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">summarize</span><span class="p">(</span>
+<span class="w">    </span><span class="n">`RMSE (original data)`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">X3</span><span class="p">),</span>
+<span class="w">    </span><span class="n">`RMSE (new data)`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">X4</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="n">combined_rsquared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">mean_rsquared</span><span class="p">,</span><span class="w"> </span><span class="n">mean_rsquared_sim</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">`Data type`</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;True data&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Shuffled data&#39;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">`Data type`</span><span class="p">,</span><span class="n">`RMSE (original data)`</span><span class="p">,</span><span class="n">`RMSE (new data)`</span><span class="p">)</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">combined_rsquared</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Root mean squared error for model applied to original data and new data, and after shuffling the order of the y variable (in essence making the null hypothesis true)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Root mean squared error for model applied to original data and new data, and after shuffling the order of the y variable (in essence making the null hypothesis true)
+
+|Data type     | RMSE (original data)| RMSE (new data)|
+|:-------------|--------------------:|---------------:|
+|True data     |             3.025431|        24.60007|
+|Shuffled data |             7.814364|        58.87935|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="table-14-3">
+<h2>Table 14.3<a class="headerlink" href="#table-14-3" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a function to run cross-validation</span>
+<span class="c1"># returns the r-squared for the out-of-sample prediction</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">12345</span><span class="p">)</span>
+<span class="n">compute_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">nfolds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1"># based on https://quantdev.ssri.psu.edu/tutorials/cross-validation-tutorial</span>
+<span class="w">  </span><span class="n">train_ctrl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">trainControl</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nfolds</span><span class="p">)</span>
+<span class="w">  </span><span class="n">model_caret</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Weight</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">TVHrsDayChild</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">CompHrsDayChild</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">HHIncomeMid</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Age</span><span class="p">,</span>
+<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">,</span>
+<span class="w">    </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_ctrl</span><span class="p">,</span><span class="w"> </span><span class="c1"># folds</span>
+<span class="w">    </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="c1"># specifying regression model</span>
+
+<span class="w">  </span><span class="n">r2_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">model_caret</span><span class="o">$</span><span class="n">resample</span><span class="o">$</span><span class="n">Rsquared</span><span class="p">)</span>
+<span class="w">  </span><span class="n">rmse_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">model_caret</span><span class="o">$</span><span class="n">resample</span><span class="o">$</span><span class="n">RMSE</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">r2_cv</span><span class="p">,</span><span class="w"> </span><span class="n">rmse_cv</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="c1"># create function to sample data and compute regression on in-sample and out-of-sample data</span>
+
+<span class="n">get_sample_predictions_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">orig_sample</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">    </span><span class="n">NHANES_child</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">sample_n</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+
+<span class="w">  </span><span class="nf">if </span><span class="p">(</span><span class="n">shuffle</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">orig_sample</span><span class="o">$</span><span class="n">Weight</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">orig_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">heightRegressOrig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Weight</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">TVHrsDayChild</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">CompHrsDayChild</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">HHIncomeMid</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Age</span><span class="p">,</span>
+<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orig_sample</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">pred_orig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">heightRegressOrig</span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">new_sample</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">    </span><span class="n">NHANES_child</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">sample_n</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">pred_new</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">heightRegressOrig</span><span class="p">,</span><span class="w"> </span><span class="n">new_sample</span><span class="p">)</span>
+<span class="w">  </span><span class="c1"># run crossvalidation on original sample</span>
+<span class="w">  </span><span class="n">cv_output</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">compute_cv</span><span class="p">(</span><span class="n">orig_sample</span><span class="p">)</span><span class="w"> </span><span class="c1">#use function created above</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">cor</span><span class="p">(</span><span class="n">pred_orig</span><span class="p">,</span><span class="w"> </span><span class="n">orig_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">cor</span><span class="p">(</span><span class="n">pred_new</span><span class="p">,</span><span class="w"> </span><span class="n">new_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cv_output</span><span class="p">[</span><span class="m">1</span><span class="p">],</span>
+<span class="w">    </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">mean</span><span class="p">((</span><span class="n">pred_orig</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">orig_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="p">)),</span>
+<span class="w">    </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">mean</span><span class="p">((</span><span class="n">pred_new</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">new_sample</span><span class="o">$</span><span class="n">Weight</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">cv_output</span><span class="p">[</span><span class="m">2</span><span class="p">]</span>
+<span class="w">  </span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="c1">#implement the function</span>
+<span class="n">sim_results</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">replicate</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="nf">get_sample_predictions_cv</span><span class="p">(</span><span class="n">sample_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">48</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span>
+
+<span class="n">sim_results</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">t</span><span class="p">(</span><span class="n">sim_results</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">data.frame</span><span class="p">()</span>
+
+<span class="n">mean_rsquared</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">sim_results</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">summarize</span><span class="p">(</span>
+<span class="w">    </span><span class="n">`Original data`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">X1</span><span class="p">),</span>
+<span class="w">    </span><span class="n">`New data`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">X2</span><span class="p">),</span>
+<span class="w">    </span><span class="n">`Cross-validation`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">X3</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="n">mean_rsquared_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">mean_rsquared</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">`R-squared`</span><span class="o">=</span><span class="n">V1</span><span class="p">)</span>
+
+<span class="nf">kable</span><span class="p">(</span><span class="n">mean_rsquared_t</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&quot;R-squared from cross-validation and new data, showing that cross-validation provides a reasonable estimate of the model&#39;s performance on new data.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in predict.lm(modelFit, newdata):
+“prediction from a rank-deficient fit may be misleading”
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: R-squared from cross-validation and new data, showing that cross-validation provides a reasonable estimate of the model&#39;s performance on new data.
+
+|                 | R-squared|
+|:----------------|---------:|
+|Original data    |     0.947|
+|New data         |     0.334|
+|Cross-validation |     0.355|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="table-14-4">
+<h2>Table 14.4<a class="headerlink" href="#table-14-4" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">    </span><span class="n">studyTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">3</span><span class="p">,</span>
+<span class="w">    </span><span class="n">priorClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">grade</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="n">studyTime</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">betas</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span>
+<span class="w">      </span><span class="n">priorClass</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">betas</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">+</span>
+<span class="w">      </span><span class="nf">round</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">))</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="n">df_matrix</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">studyTime</span><span class="p">,</span><span class="w"> </span><span class="n">grade</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">as.matrix</span><span class="p">()</span>
+
+<span class="nf">kable</span><span class="p">(</span><span class="n">df_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Study time data reformatted as a matrix.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Study time data reformatted as a matrix.
+
+| studyTime| grade|
+|---------:|-----:|
+| 0.6666667|    76|
+| 1.0000000|    84|
+| 1.6666667|    76|
+| 2.0000000|    83|
+| 2.0000000|    96|
+| 2.6666667|    79|
+| 3.3333333|    92|
+| 4.0000000|    98|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="table-14-5">
+<h2>Table 14.5<a class="headerlink" href="#table-14-5" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute beta estimates using linear algebra</span>
+
+<span class="c1">#create Y variable 8 x 1 matrix</span>
+<span class="n">Y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">grade</span><span class="p">)</span>
+<span class="w"> </span><span class="c1">#create X variable 8 x 2 matrix</span>
+<span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="c1">#assign studyTime values to first column in X matrix</span>
+<span class="n">X</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">studyTime</span><span class="p">)</span>
+<span class="c1">#assign constant of 1 to second column in X matrix</span>
+<span class="n">X</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span>
+
+<span class="c1"># compute inverse of X using ginv()</span>
+<span class="c1"># %*% is the R matrix multiplication operator</span>
+
+<span class="n">beta_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ginv</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="c1">#multiple the inverse of X by Y</span>
+
+<span class="n">beta_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;Beta 1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Beta 2&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">estimate</span><span class="o">=</span><span class="n">beta_hat</span><span class="p">)</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">beta_df</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Regression parameters estimated using linear algebra.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Regression parameters estimated using linear algebra.
+
+|parameter | estimate|
+|:---------|--------:|
+|Beta 1    |      5.2|
+|Beta 2    |     74.1|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="13-ContinuousRelationships.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Chapter 13: Modeling continuous relationships</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="15-ComparingMeans.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 15: Comparing means</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Russell Poldrack<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

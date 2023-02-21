@@ -1,0 +1,1430 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Chapter 16: Multivariate statistics &#8212; R Code and figures for Statistical Thinking: Analyzing Data in an Uncertain World</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 17: Practical statistical modeling" href="17-PracticalExamples.html" />
+    <link rel="prev" title="Chapter 15: Comparing means" href="15-ComparingMeans.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">R Code and figures for Statistical Thinking: Analyzing Data in an Uncertain World</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    <no title>
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Intro.html">
+   Chapter 1: Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-Data.html">
+   Chapter 2: Working with data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-SummarizingData.html">
+   Chapter 3: Summarizing data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-VisualizingData.html">
+   Chapter 4: Data Visualization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-FittingModels.html">
+   Chapter 5: Fitting models to data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Probability.html">
+   Chapter 6: Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-Sampling.html">
+   Chapter 7: Sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-Resampling.html">
+   Chapter 8: Resampling and simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-HypothesisTesting.html">
+   Chapter 9: Hypothesis testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-ConfIntEffectSize.html">
+   Chapter 10: Quantifying effects and designing studies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="11-BayesianStatistics.html">
+   Chapter 11: Bayesian statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12-CategoricalRelationships.html">
+   Chapter 12: Modeling categorical relationships
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="13-ContinuousRelationships.html">
+   Chapter 13: Modeling continuous relationships
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="14-GeneralLinearModel.html">
+   Chapter 14: The General Linear Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="15-ComparingMeans.html">
+   Chapter 15: Comparing means
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 16: Multivariate statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="17-PracticalExamples.html">
+   Chapter 17: Practical statistical modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="18-DoingReproducibleResearch.html">
+   Chapter 18: Doing reproducible research
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/16-MultivariateStats.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/16-MultivariateStats.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multivariate-data-setup">
+   Multivariate data setup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-1">
+   Figure 16.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-2">
+   Figure 16.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-3">
+   Figure 16.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-4">
+   Figure 16.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-5">
+   Figure 16.5
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-16-1">
+   Table 16.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-6">
+   Figure 16.6
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-7">
+   Figure 16.7
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-8">
+   Figure 16.8
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-9">
+   Figure 16.9
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlation-test-for-pca-components">
+   Correlation test for PCA components
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-10">
+   Figure 16.10
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-11">
+   Figure 16.11
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-12">
+   Figure 16.12
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#factor-analysis-output">
+   Factor analysis output
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-13">
+   Figure 16.13
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-14">
+   Figure 16.14
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-15">
+   Figure 16.15
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Chapter 16: Multivariate statistics</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multivariate-data-setup">
+   Multivariate data setup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-1">
+   Figure 16.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-2">
+   Figure 16.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-3">
+   Figure 16.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-4">
+   Figure 16.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-5">
+   Figure 16.5
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-16-1">
+   Table 16.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-6">
+   Figure 16.6
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-7">
+   Figure 16.7
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-8">
+   Figure 16.8
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-9">
+   Figure 16.9
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlation-test-for-pca-components">
+   Correlation test for PCA components
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-10">
+   Figure 16.10
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-11">
+   Figure 16.11
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-12">
+   Figure 16.12
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#factor-analysis-output">
+   Factor analysis output
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-13">
+   Figure 16.13
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-14">
+   Figure 16.14
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-16-15">
+   Figure 16.15
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-16-multivariate-statistics">
+<h1>Chapter 16: Multivariate statistics<a class="headerlink" href="#chapter-16-multivariate-statistics" title="Permalink to this headline">#</a></h1>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># import MASS first because it otherwise will mask dplyr::select</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggdendro</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">psych</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">gplots</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">pdist</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">factoextra</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">mclust</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
+<span class="nf">theme_set</span><span class="p">(</span><span class="nf">theme_minimal</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching packages</span> ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2</span> 3.4.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr  </span> 1.0.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble </span> 3.1.8     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr  </span> 1.1.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr  </span> 1.3.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr</span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr  </span> 2.1.4     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats</span> 1.0.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">select()</span> masks <span class=" -Color -Color-Blue">MASS</span>::select()
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘psych’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following objects are masked from ‘package:ggplot2’:
+
+    %+%, alpha
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘gplots’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:stats’:
+
+    lowess
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: viridisLite
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Package &#39;mclust&#39; version 6.0.0
+Type &#39;citation(&quot;mclust&quot;)&#39; for citing this R package in publications.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘mclust’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:psych’:
+
+    sim
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:purrr’:
+
+    map
+</pre></div>
+</div>
+</div>
+</div>
+<section id="multivariate-data-setup">
+<h2>Multivariate data setup<a class="headerlink" href="#multivariate-data-setup" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">behavdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/Eisenberg/meaningful_variables.csv&#39;</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="n">demoghealthdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/Eisenberg/demographic_health.csv&#39;</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+
+<span class="c1"># recode Sex variable from 0/1 to Male/Female</span>
+<span class="n">demoghealthdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">demoghealthdata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">recode_factor</span><span class="p">(</span><span class="n">Sex</span><span class="p">,</span><span class="w"> </span><span class="n">`0`</span><span class="o">=</span><span class="s">&quot;Male&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">`1`</span><span class="o">=</span><span class="s">&quot;Female&quot;</span><span class="p">))</span>
+
+<span class="c1"># combine the data into a single data frame by subcode</span>
+<span class="n">alldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">behavdata</span><span class="p">,</span><span class="w"> </span><span class="n">demoghealthdata</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s">&#39;subcode&#39;</span><span class="p">)</span>
+
+<span class="n">rename_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="s">&#39;upps_impulsivity_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;UPPS&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;sensation_seeking_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;SSS&#39;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&#39;dickman_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;Dickman&#39;</span><span class="p">,</span><span class="w">  </span><span class="s">&#39;bis11_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;BIS11&#39;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&#39;spatial_span&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;spatial&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;digit_span&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;digit&#39;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&#39;adaptive_n_back&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;nback&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;dospert_rt_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;dospert&#39;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&#39;motor_selective_stop_signal.SSRT&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;SSRT_motorsel&#39;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&#39;stim_selective_stop_signal.SSRT&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;SSRT_stimsel&#39;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&#39;stop_signal.SSRT_low&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;SSRT_low&#39;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&#39;stop_signal.SSRT_high&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;SSRT_high&#39;</span><span class="p">)</span>
+
+<span class="n">impulsivity_variables</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;Sex&#39;</span><span class="p">)</span>
+
+<span class="n">keep_variables</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;spatial.forward_span&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;spatial.reverse_span&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;digit.forward_span&quot;</span><span class="p">,</span><span class="s">&quot;digit.reverse_span&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;nback.mean_load&quot;</span><span class="p">)</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">potential_match</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">alldata</span><span class="p">)){</span>
+<span class="w">  </span><span class="nf">for </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">rename_list</span><span class="p">)){</span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="nf">str_detect</span><span class="p">(</span><span class="n">potential_match</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)){</span>
+<span class="w">      </span><span class="c1"># print(sprintf(&#39;found match: %s %s&#39;, n, potential_match))</span>
+<span class="w">      </span><span class="n">replacement_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">str_replace</span><span class="p">(</span><span class="n">potential_match</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="nf">toString</span><span class="p">(</span><span class="n">rename_list</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+<span class="w">      </span><span class="nf">names</span><span class="p">(</span><span class="n">alldata</span><span class="p">)[</span><span class="nf">names</span><span class="p">(</span><span class="n">alldata</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">potential_match</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">replacement_name</span>
+<span class="w">      </span><span class="n">impulsivity_variables</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">impulsivity_variables</span><span class="p">,</span><span class="w"> </span><span class="n">replacement_name</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">impulsivity_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">alldata</span><span class="p">[,</span><span class="n">impulsivity_variables</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">()</span>
+
+
+<span class="n">ssrtdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alldata</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;subcode&#39;</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">alldata</span><span class="p">)[</span><span class="nf">grep</span><span class="p">(</span><span class="s">&#39;SSRT_&#39;</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">alldata</span><span class="p">))])]</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">stop_signal.proactive_SSRT_speeding</span><span class="p">)</span>
+
+<span class="n">upps_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">alldata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&#39;UPPS&#39;</span><span class="p">),</span><span class="w"> </span><span class="s">&#39;subcode&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">setNames</span><span class="p">(</span><span class="nf">gsub</span><span class="p">(</span><span class="s">&quot;UPPS.&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">.</span><span class="p">)))</span>
+
+<span class="n">impdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">inner_join</span><span class="p">(</span><span class="n">ssrtdata</span><span class="p">,</span><span class="w"> </span><span class="n">upps_data</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">subcode</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">scale</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">as.data.frame</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">rename</span><span class="p">(</span><span class="n">SSRT_motor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SSRT_motorsel</span><span class="p">,</span>
+<span class="w">                </span><span class="n">SSRT_stim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SSRT_stimsel</span><span class="p">,</span>
+<span class="w">                </span><span class="n">UPPS_pers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lack_of_perseverance</span><span class="p">,</span>
+<span class="w">                </span><span class="n">UPPS_premed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lack_of_premeditation</span><span class="p">,</span>
+<span class="w">                </span><span class="n">UPPS_negurg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">negative_urgency</span><span class="p">,</span>
+<span class="w">                </span><span class="n">UPPS_posurg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">positive_urgency</span><span class="p">,</span>
+<span class="w">                </span><span class="n">UPPS_senseek</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensation_seeking</span>
+<span class="w">                </span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(subcode)`
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-16-1">
+<h2>Figure 16.1<a class="headerlink" href="#figure-16-1" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">pairs.panels</span><span class="p">(</span><span class="n">impdata</span><span class="p">,</span><span class="w"> </span><span class="n">lm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_5_0.svg" src="_images/16-MultivariateStats_5_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-2">
+<h2>Figure 16.2<a class="headerlink" href="#figure-16-2" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">cc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">impdata</span><span class="p">)</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mai</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="m">+0.1</span><span class="p">)</span>
+
+<span class="nf">heatmap.2</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span><span class="w"> </span><span class="n">trace</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">dendrogram</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="n">cellnote</span><span class="o">=</span><span class="nf">round</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">notecol</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span>
+<span class="w">          </span><span class="n">margins</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">12</span><span class="p">,</span><span class="m">8</span><span class="p">),</span><span class="w"> </span><span class="n">srtCol</span><span class="o">=</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">symm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">revC</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="c1">#notecex=4,</span>
+<span class="w">          </span><span class="n">cexRow</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">cexCol</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">offsetRow</span><span class="o">=</span><span class="m">-150</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="nf">viridis</span><span class="p">(</span><span class="m">50</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_7_0.svg" src="_images/16-MultivariateStats_7_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-3">
+<h2>Figure 16.3<a class="headerlink" href="#figure-16-3" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">ccmtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">read_delim</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/myconnectome/ccmtx_sorted.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">col_names</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+
+<span class="n">parcel_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">read_delim</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/myconnectome/parcel_data.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">col_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">X1</span><span class="p">)</span>
+<span class="nf">names</span><span class="p">(</span><span class="n">parcel_data</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;hemis&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;X&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Y&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Z&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;lobe&#39;</span><span class="p">,</span>
+<span class="w">                         </span><span class="s">&#39;region&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;network&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;yeo7network&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;yeo17network&#39;</span><span class="p">)</span>
+<span class="n">parcel_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">parcel_data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">arrange</span><span class="p">(</span><span class="n">hemis</span><span class="p">,</span><span class="w"> </span><span class="n">yeo7network</span><span class="p">)</span>
+<span class="n">parcel_data</span><span class="o">$</span><span class="n">netdiff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
+<span class="n">parcel_data</span><span class="o">$</span><span class="n">netdiff</span><span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="nf">nrow</span><span class="p">(</span><span class="n">parcel_data</span><span class="p">)]</span><span class="w"> </span><span class="o">=</span><span class="w">       </span><span class="n">parcel_data</span><span class="o">$</span><span class="n">yeo7network</span><span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="nf">nrow</span><span class="p">(</span><span class="n">parcel_data</span><span class="p">)]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">parcel_data</span><span class="o">$</span><span class="n">yeo7network</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="nf">nrow</span><span class="p">(</span><span class="n">parcel_data</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">)]</span>
+
+<span class="n">hemis_to_use</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;L&#39;</span>
+
+<span class="n">tmp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ccmtx</span><span class="p">[</span><span class="n">parcel_data</span><span class="o">$</span><span class="n">hemis</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">hemis_to_use</span><span class="p">,]</span>
+<span class="n">ccmtx_lh</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tmp</span><span class="p">[,</span><span class="w"> </span><span class="n">parcel_data</span><span class="o">$</span><span class="n">hemis</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">hemis_to_use</span><span class="p">]</span>
+<span class="n">hemis_parcel_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parcel_data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">hemis</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">hemis_to_use</span><span class="p">)</span>
+
+<span class="nf">heatmap.2</span><span class="p">(</span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">ccmtx_lh</span><span class="p">),</span><span class="w"> </span><span class="n">trace</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">symm</span><span class="o">=</span><span class="bp">T</span><span class="p">,</span>
+<span class="w">          </span><span class="n">dendrogram</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="o">=</span><span class="nf">viridis</span><span class="p">(</span><span class="m">50</span><span class="p">),</span><span class="w"> </span><span class="n">Rowv</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">Colv</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span>
+<span class="w">          </span><span class="n">labCol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">labRow</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_9_0.svg" src="_images/16-MultivariateStats_9_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-4">
+<h2>Figure 16.4<a class="headerlink" href="#figure-16-4" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">euc_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">))</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">euc_df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlim</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">ylim</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&#39;segment&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dotted&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_11_0.svg" src="_images/16-MultivariateStats_11_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-5">
+<h2>Figure 16.5<a class="headerlink" href="#figure-16-5" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">countries</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_delim</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/countries/country_data.csv&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">na</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="c1"># filter out countries with less than 1M population</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">Population2020</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">500000</span><span class="p">)</span>
+
+<span class="n">latlong</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">countries</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">latitude</span><span class="p">,</span><span class="w"> </span><span class="n">longitude</span><span class="p">)</span>
+
+<span class="c1">#ggplot(countries, aes(longitude, latitude, color=Continent)) +</span>
+<span class="c1">#  geom_point()</span>
+
+<span class="c1"># based on https://stanford.edu/~cpiech/cs221/handouts/kmeans.html</span>
+<span class="c1"># need to clarify license!</span>
+<span class="c1"># and https://jakevdp.github.io/PythonDataScienceHandbook/05.11-k-means.html</span>
+<span class="c1"># (Code under MIT license)</span>
+
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123456</span><span class="p">)</span>
+<span class="c1"># select random starting points as the means - i.e. Forgy method</span>
+
+<span class="n">centroids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">latlong</span><span class="p">[</span><span class="nf">sample.int</span><span class="p">(</span><span class="nf">nrow</span><span class="p">(</span><span class="n">latlong</span><span class="p">),</span><span class="w"> </span><span class="n">k</span><span class="p">),]</span>
+
+
+<span class="n">iterations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="n">oldCentroids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">()</span>
+
+<span class="n">MAX_ITERATIONS</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span>
+
+
+<span class="n">shouldStop</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">oldCentroids</span><span class="p">,</span><span class="w"> </span><span class="n">centroids</span><span class="p">,</span><span class="w"> </span><span class="n">iterations</span><span class="p">){</span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">iterations</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MAX_ITERATIONS</span><span class="p">){</span>
+<span class="w">      </span><span class="nf">return</span><span class="p">(</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">oldCentroids</span><span class="p">)[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">){</span>
+<span class="w">      </span><span class="nf">return</span><span class="p">(</span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="nf">all.equal</span><span class="p">(</span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">centroids</span><span class="p">),</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">oldCentroids</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<span class="n">getLabels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">dataSet</span><span class="p">,</span><span class="w"> </span><span class="n">centroids</span><span class="p">){</span>
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">pdist</span><span class="o">::</span><span class="nf">pdist</span><span class="p">(</span><span class="n">dataSet</span><span class="p">,</span><span class="w"> </span><span class="n">centroids</span><span class="p">))</span>
+
+<span class="w">    </span><span class="c1"># For each element in the dataset, chose the closest centroid.</span>
+<span class="w">    </span><span class="c1"># Make that centroid the element&#39;s label.</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="nf">apply</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">which.min</span><span class="p">))</span>
+<span class="p">}</span>
+
+
+<span class="n">getCentroids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">dataSet</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">){</span>
+<span class="w">    </span><span class="c1"># Each centroid is the geometric mean of the points that</span>
+<span class="w">    </span><span class="c1"># have that centroid&#39;s label. Important: If a centroid is empty (no points have</span>
+<span class="w">    </span><span class="c1"># that centroid&#39;s label) you should randomly re-initialize it.</span>
+<span class="w">    </span><span class="n">newCentroids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NULL</span>
+<span class="w">    </span><span class="nf">for </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">k</span><span class="p">){</span>
+<span class="w">      </span><span class="n">labeldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dataSet</span><span class="p">[</span><span class="n">labels</span><span class="o">==</span><span class="n">i</span><span class="p">,]</span>
+<span class="w">      </span><span class="n">newCentroids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">newCentroids</span><span class="p">,</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">labeldata</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">))</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">newCentroids</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">all_centroids_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">label_kmeans</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="nf">nrow</span><span class="p">(</span><span class="n">.</span><span class="p">))),</span>
+<span class="w">         </span><span class="n">iter</span><span class="o">=</span><span class="m">0</span><span class="p">)</span>
+
+
+<span class="nf">while </span><span class="p">(</span><span class="o">!</span><span class="nf">shouldStop</span><span class="p">(</span><span class="n">oldCentroids</span><span class="p">,</span><span class="w"> </span><span class="n">centroids</span><span class="p">,</span><span class="w"> </span><span class="n">iterations</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="c1"># Save old centroids for convergence test. Book keeping.</span>
+<span class="w">        </span><span class="n">oldCentroids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">centroids</span>
+<span class="w">        </span><span class="n">iterations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iterations</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="c1"># Assign labels to each datapoint based on centroids</span>
+<span class="w">        </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">getLabels</span><span class="p">(</span><span class="n">latlong</span><span class="p">,</span><span class="w"> </span><span class="n">centroids</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c1"># Assign centroids based on datapoint labels</span>
+<span class="w">        </span><span class="n">centroids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">getCentroids</span><span class="p">(</span><span class="n">latlong</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">        </span><span class="n">centroids_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">          </span><span class="nf">mutate</span><span class="p">(</span><span class="n">label_kmeans</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="nf">nrow</span><span class="p">(</span><span class="n">.</span><span class="p">))),</span>
+<span class="w">                 </span><span class="n">iter</span><span class="o">=</span><span class="n">iterations</span><span class="p">)</span>
+<span class="w">        </span><span class="n">all_centroids_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">all_centroids_df</span><span class="p">,</span><span class="w"> </span><span class="n">centroids_df</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">#sprintf(&#39;Completed after %d iterations&#39;, iterations)</span>
+
+<span class="n">countries</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">countries</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">label_kmeans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+
+<span class="n">centroid_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">all_centroids_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">iter</span><span class="o">==</span><span class="n">iterations</span><span class="p">)</span>
+
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">countries</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">longitude</span><span class="p">,</span><span class="w"> </span><span class="n">latitude</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">label_kmeans</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">centroid_df</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">4</span><span class="p">)</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">iterations</span><span class="p">){</span>
+<span class="w">  </span><span class="nf">for </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">k</span><span class="p">){</span>
+<span class="w">    </span><span class="n">iter_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">all_centroids_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">iter</span><span class="o">==</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">label_kmeans</span><span class="o">==</span><span class="n">j</span><span class="p">)</span>
+<span class="w">    </span><span class="n">prev_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">all_centroids_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">iter</span><span class="o">==</span><span class="n">i</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="n">label_kmeans</span><span class="o">==</span><span class="n">j</span><span class="p">)</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&#39;segment&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iter_df</span><span class="o">$</span><span class="n">longitude</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iter_df</span><span class="o">$</span><span class="n">latitude</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev_df</span><span class="o">$</span><span class="n">longitude</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev_df</span><span class="o">$</span><span class="n">latitude</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">all_centroids_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">iter</span><span class="o">==</span><span class="m">0</span><span class="p">),</span>
+<span class="w">               </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="o">=</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">166</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">10</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (6): CountryCode, CountryName, Region, IncomeGroup, Continent, country
+<span class=" -Color -Color-Green">dbl</span> (4): Population2020, latitude, longitude, GDP2020
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<img alt="_images/16-MultivariateStats_13_3.svg" src="_images/16-MultivariateStats_13_3.svg" /></div>
+</div>
+</section>
+<section id="table-16-1">
+<h2>Table 16.1<a class="headerlink" href="#table-16-1" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span><span class="w"> </span><span class="n">countries</span><span class="o">$</span><span class="n">Continent</span><span class="p">)</span>
+<span class="n">t_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">pivot_wider</span><span class="p">(</span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">t</span><span class="p">),</span><span class="w"> </span><span class="n">id_cols</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span><span class="w"> </span><span class="n">names_from</span><span class="o">=</span><span class="n">Var2</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="o">=</span><span class="n">Freq</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">Africa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AF</span><span class="p">,</span>
+<span class="w">         </span><span class="n">Europe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EU</span><span class="p">,</span>
+<span class="w">         </span><span class="n">`North America`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">`NA`</span><span class="p">,</span>
+<span class="w">         </span><span class="n">Asia</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AS</span><span class="p">,</span>
+<span class="w">         </span><span class="n">Oceania</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OC</span><span class="p">,</span>
+<span class="w">         </span><span class="n">`South America`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SA</span><span class="p">)</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">t_df</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Comparison of k-means clustering result to actual continents.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Comparison of k-means clustering result to actual continents.
+
+|labels | Africa| Asia| Europe| North America| Oceania| South America|
+|:------|------:|----:|------:|-------------:|-------:|-------------:|
+|1      |      5|    1|     36|             0|       0|             0|
+|2      |      3|   24|      0|             0|       0|             0|
+|3      |      0|    0|      0|             0|       0|             7|
+|4      |      0|    0|      0|            15|       0|             4|
+|5      |      0|   10|      0|             0|       6|             0|
+|6      |     35|    0|      0|             0|       0|             0|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-16-6">
+<h2>Figure 16.6<a class="headerlink" href="#figure-16-6" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+<span class="n">cluster_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">()</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">){</span>
+<span class="w">  </span><span class="n">km.result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">kmeans</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">impdata</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
+<span class="w">  </span><span class="n">cluster_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">cluster_results</span><span class="p">,</span><span class="w"> </span><span class="n">km.result</span><span class="o">$</span><span class="n">cluster</span><span class="p">)</span>
+<span class="w">  </span><span class="c1"># relabel so that cluster nums match when solution is identical</span>
+<span class="w">  </span><span class="nf">for </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="n">i</span><span class="m">-1</span><span class="p">)){</span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">j</span><span class="o">&gt;</span><span class="m">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nf">adjustedRandIndex</span><span class="p">(</span><span class="n">cluster_results</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="n">cluster_results</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">])</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">){</span>
+<span class="w">      </span><span class="n">cluster_results</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cluster_results</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="p">]</span>
+<span class="w">      </span><span class="n">break</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nf">heatmap.2</span><span class="p">(</span><span class="n">cluster_results</span><span class="p">,</span><span class="w"> </span><span class="n">dendrogram</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">trace</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="n">col</span><span class="o">=</span><span class="nf">rainbow</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="o">=</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">),</span><span class="w"> </span><span class="n">notecol</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span>
+<span class="w">          </span><span class="n">cellnote</span><span class="o">=</span><span class="n">cluster_results</span><span class="p">,</span><span class="w"> </span><span class="n">notecex</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span>
+<span class="w">           </span><span class="n">margins</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">12</span><span class="p">,</span><span class="m">8</span><span class="p">),</span><span class="w"> </span><span class="n">srtCol</span><span class="o">=</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_17_0.svg" src="_images/16-MultivariateStats_17_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-7">
+<h2>Figure 16.7<a class="headerlink" href="#figure-16-7" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dist</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">impdata</span><span class="p">))</span>
+
+<span class="n">hc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">hclust</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s">&#39;average&#39;</span><span class="p">)</span>
+
+
+<span class="c1">#convert cluster object to use with ggplot</span>
+<span class="n">dendr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dendro_data</span><span class="p">(</span><span class="n">hc</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;rectangle&quot;</span><span class="p">)</span>
+
+<span class="c1"># TODO: https://stackoverflow.com/questions/21474388/colorize-clusters-in-dendogram-with-ggplot2</span>
+
+<span class="n">cutoffs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">25</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">19</span><span class="p">)</span>
+
+<span class="c1">#your own labels (now rownames) are supplied in geom_text() and label=label</span>
+<span class="nf">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_segment</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nf">segment</span><span class="p">(</span><span class="n">dendr</span><span class="p">),</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="o">=</span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="o">=</span><span class="n">yend</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_text</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nf">label</span><span class="p">(</span><span class="n">dendr</span><span class="p">),</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">dendr</span><span class="o">$</span><span class="n">labels</span><span class="o">$</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="o">=</span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">coord_flip</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">scale_y_reverse</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">axis.line.y</span><span class="o">=</span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">axis.ticks.y</span><span class="o">=</span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">axis.text.y</span><span class="o">=</span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">axis.title.y</span><span class="o">=</span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">panel.background</span><span class="o">=</span><span class="nf">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">panel.grid</span><span class="o">=</span><span class="nf">element_blank</span><span class="p">())</span><span class="w"> </span><span class="o">+</span>
+<span class="w">   </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="n">cutoffs</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">   </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="n">cutoffs</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&#39;green&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">   </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="o">=</span><span class="n">cutoffs</span><span class="p">[</span><span class="m">3</span><span class="p">],</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">   </span><span class="nf">ylim</span><span class="p">(</span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="m">-10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Scale for <span class=" -Color -Color-Green">y</span> is already present.
+Adding another scale for <span class=" -Color -Color-Green">y</span>, which will replace the existing scale.
+</pre></div>
+</div>
+<img alt="_images/16-MultivariateStats_19_1.svg" src="_images/16-MultivariateStats_19_1.svg" /></div>
+</div>
+</section>
+<section id="figure-16-8">
+<h2>Figure 16.8<a class="headerlink" href="#figure-16-8" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">N</span><span class="w"> </span><span class="o">&lt;-</span><span class="m">30</span><span class="w">                           </span><span class="c1">#setting my sample size</span>
+<span class="n">mu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">                      </span><span class="c1">#setting the means</span>
+<span class="n">c1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">.</span><span class="m">7</span>
+
+<span class="n">sigma</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">  </span><span class="c1">#setting the covariance matrix values. The &quot;2,2&quot; part at the tail end defines the number of rows and columns in the matrix</span>
+
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">04182019</span><span class="p">)</span><span class="w">  </span><span class="c1">#setting the seed value so I can reproduce this exact sim later if need be</span>
+<span class="n">simdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mvrnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">N</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="n">Sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span><span class="w"> </span><span class="n">empirical</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">  </span><span class="c1">#simulate the data, as specified above</span>
+
+<span class="n">sim_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">simdata</span><span class="p">)</span>
+<span class="nf">names</span><span class="p">(</span><span class="n">sim_df</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span>
+
+<span class="c1"># ggplot(sim_df, aes(X, Y)) +</span>
+<span class="c1">#    geom_point() +</span>
+<span class="c1">#   xlim(-3, 3) +</span>
+<span class="c1">#   ylim(-3, 3) +</span>
+<span class="c1">#   geom_smooth(method=&#39;lm&#39;, se=FALSE)</span>
+
+<span class="c1"># scale variables</span>
+
+<span class="n">sim_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sim_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">X</span><span class="p">),</span>
+<span class="w">         </span><span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span>
+
+<span class="c1"># compute covariance matrix</span>
+
+
+<span class="n">sim_df_cov</span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cov</span><span class="p">(</span><span class="n">sim_df</span><span class="p">)</span>
+
+<span class="c1"># Compute eigenvalues/eigenvectors</span>
+
+
+<span class="n">cov_eig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">eigen</span><span class="p">(</span><span class="n">sim_df_cov</span><span class="p">)</span>
+
+<span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">sim_df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">   </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlim</span><span class="p">(</span><span class="m">-3</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylim</span><span class="p">(</span><span class="m">-3</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
+
+<span class="c1"># based on https://stats.stackexchange.com/questions/153564/visualizing-pca-in-r-data-points-eigenvectors-projections-confidence-ellipse</span>
+
+<span class="c1"># calculate slopes as ratios</span>
+<span class="n">cov_eig</span><span class="o">$</span><span class="n">slopes</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cov_eig</span><span class="o">$</span><span class="n">vectors</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">]</span><span class="o">/</span><span class="n">cov_eig</span><span class="o">$</span><span class="n">vectors</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">cov_eig</span><span class="o">$</span><span class="n">slopes</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cov_eig</span><span class="o">$</span><span class="n">vectors</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">]</span><span class="o">/</span><span class="n">cov_eig</span><span class="o">$</span><span class="n">vectors</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+
+<span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_segment</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cov_eig</span><span class="o">$</span><span class="n">values</span><span class="p">[</span><span class="m">1</span><span class="p">],</span>
+<span class="w">                      </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cov_eig</span><span class="o">$</span><span class="n">slopes</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cov_eig</span><span class="o">$</span><span class="n">values</span><span class="p">[</span><span class="m">1</span><span class="p">],</span>
+<span class="w">                      </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;green&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.5</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">arrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">arrow</span><span class="p">(</span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cm&quot;</span><span class="p">)))</span><span class="w">  </span><span class="c1"># add arrow for pc1</span>
+<span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_segment</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cov_eig</span><span class="o">$</span><span class="n">values</span><span class="p">[</span><span class="m">2</span><span class="p">],</span>
+<span class="w">                      </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cov_eig</span><span class="o">$</span><span class="n">slopes</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cov_eig</span><span class="o">$</span><span class="n">values</span><span class="p">[</span><span class="m">2</span><span class="p">],</span>
+<span class="w">                      </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.5</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">arrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">arrow</span><span class="p">(</span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cm&quot;</span><span class="p">)))</span><span class="w">  </span><span class="c1"># add arrow for pc2</span>
+
+<span class="n">g</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_21_0.svg" src="_images/16-MultivariateStats_21_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-9">
+<h2>Figure 16.9<a class="headerlink" href="#figure-16-9" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">ssrtdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">impdata</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&#39;SSRT&#39;</span><span class="p">))</span>
+
+<span class="n">pca_result_ssrt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prcomp</span><span class="p">(</span><span class="n">ssrtdata</span><span class="p">)</span>
+<span class="n">pca_ssrt_varacct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="n">pca_result_ssrt</span><span class="p">)</span><span class="o">$</span><span class="n">importance</span><span class="p">[</span><span class="m">2</span><span class="p">,]</span>
+
+<span class="n">ssrt_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s">&#39;SSRT&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">PC</span><span class="o">=</span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">VarianceAccountedFor</span><span class="o">=</span><span class="n">pca_ssrt_varacct</span><span class="p">)</span>
+<span class="n">uppsdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">impdata</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">!</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&#39;SSRT&#39;</span><span class="p">))</span>
+
+<span class="n">pca_result_upps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prcomp</span><span class="p">(</span><span class="n">uppsdata</span><span class="p">)</span>
+<span class="n">pca_upps_varacct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="n">pca_result_upps</span><span class="p">)</span><span class="o">$</span><span class="n">importance</span><span class="p">[</span><span class="m">2</span><span class="p">,]</span>
+<span class="n">upps_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s">&#39;UPPS&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">PC</span><span class="o">=</span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">),</span><span class="w"> </span><span class="n">VarianceAccountedFor</span><span class="o">=</span><span class="n">pca_upps_varacct</span><span class="p">)</span>
+
+
+<span class="n">var_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">ssrt_df</span><span class="p">,</span><span class="w"> </span><span class="n">upps_df</span><span class="p">)</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">var_df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">PC</span><span class="p">,</span><span class="w"> </span><span class="n">VarianceAccountedFor</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">dataset</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+<span class=" -Color -Color-Cyan">ℹ</span> Please use `linewidth` instead.”
+</pre></div>
+</div>
+<img alt="_images/16-MultivariateStats_23_1.svg" src="_images/16-MultivariateStats_23_1.svg" /></div>
+</div>
+</section>
+<section id="correlation-test-for-pca-components">
+<h2>Correlation test for PCA components<a class="headerlink" href="#correlation-test-for-pca-components" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">pca_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">SSRT</span><span class="o">=</span><span class="nf">predict</span><span class="p">(</span><span class="n">pca_result_ssrt</span><span class="p">)[,</span><span class="w"> </span><span class="s">&#39;PC1&#39;</span><span class="p">],</span>
+<span class="w">                     </span><span class="n">UPPS</span><span class="o">=</span><span class="nf">predict</span><span class="p">(</span><span class="n">pca_result_upps</span><span class="p">)[,</span><span class="w"> </span><span class="s">&#39;PC1&#39;</span><span class="p">])</span>
+
+<span class="n">ct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cor.test</span><span class="p">(</span><span class="n">pca_df</span><span class="o">$</span><span class="n">SSRT</span><span class="p">,</span><span class="w"> </span><span class="n">pca_df</span><span class="o">$</span><span class="n">UPPS</span><span class="p">)</span>
+<span class="n">ct</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Pearson&#39;s product-moment correlation
+
+data:  pca_df$SSRT and pca_df$UPPS
+t = -0.26801, df = 327, p-value = 0.7889
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.12275066  0.09345838
+sample estimates:
+        cor 
+-0.01481936 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-16-10">
+<h2>Figure 16.10<a class="headerlink" href="#figure-16-10" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">imp_pc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">prcomp</span><span class="p">(</span><span class="n">impdata</span><span class="p">,</span><span class="w">  </span><span class="n">scale.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span>
+
+<span class="nf">fviz_screeplot</span><span class="p">(</span><span class="n">imp_pc</span><span class="p">,</span><span class="w"> </span><span class="n">addlabels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">50</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_27_0.svg" src="_images/16-MultivariateStats_27_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-11">
+<h2>Figure 16.11<a class="headerlink" href="#figure-16-11" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">loading_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">imp_pc</span><span class="o">$</span><span class="n">rotation</span><span class="p">)</span>
+
+<span class="n">loading_df</span><span class="p">[</span><span class="s">&#39;Variable&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">loading_df</span><span class="p">)</span>
+<span class="n">loading_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loading_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="o">!</span><span class="n">Variable</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s">&#39;PC&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s">&#39;Loading&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">PC</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;PC1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;PC2&#39;</span><span class="p">))</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">loading_df</span><span class="w"> </span><span class="p">,</span>
+<span class="w">       </span><span class="nf">aes</span><span class="p">(</span><span class="n">Variable</span><span class="p">,</span><span class="w"> </span><span class="n">Loading</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&#39;identity&#39;</span><span class="p">)</span><span class="w">  </span><span class="o">+</span>
+<span class="w">      </span><span class="nf">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">      </span><span class="nf">facet_grid</span><span class="p">(</span><span class="n">PC</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_29_0.svg" src="_images/16-MultivariateStats_29_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-12">
+<h2>Figure 16.12<a class="headerlink" href="#figure-16-12" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">N</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">200</span><span class="w">                           </span><span class="c1">#setting my sample size</span>
+<span class="n">mu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">                     </span><span class="c1">#setting the means</span>
+<span class="n">c1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">.</span><span class="m">5</span><span class="w"> </span><span class="c1"># correlation b/w WM and FR</span>
+
+<span class="n">sigma</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w">  </span><span class="c1">#setting the covariance matrix values. The &quot;2,2&quot; part at the tail end defines the number of rows and columns in the matrix</span>
+
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">04182019</span><span class="p">)</span><span class="w">  </span><span class="c1">#setting the seed value so I can reproduce this exact sim later if need be</span>
+<span class="n">simdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mvrnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">N</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="n">Sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span><span class="w"> </span><span class="n">empirical</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w">  </span><span class="c1">#simulate the data, as specified above</span>
+
+<span class="n">latent_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">simdata</span><span class="p">)</span>
+<span class="nf">names</span><span class="p">(</span><span class="n">latent_df</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;WM&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;FR&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;IMP&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># create observed variables by matrix-multiplying the latent variables</span>
+<span class="c1"># by a weight matrix</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123456</span><span class="p">)</span>
+<span class="n">tasknames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;nback&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;dspan&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;sspan&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;ravens&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;crt&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;UPPS&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;BIS11&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;dickman&#39;</span><span class="p">)</span>
+<span class="n">ntasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">tasknames</span><span class="p">)</span>
+<span class="n">weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">ntasks</span><span class="p">)</span>
+<span class="n">weights</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="n">weights</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="o">:</span><span class="m">5</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="n">weights</span><span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="o">:</span><span class="m">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+
+<span class="n">noise_sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="m">6</span>
+<span class="n">observed_vals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">latent_df</span><span class="p">)</span><span class="w"> </span><span class="o">%*%</span><span class="w"> </span><span class="n">weights</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">mvrnorm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">ntasks</span><span class="p">),</span><span class="w"> </span><span class="n">Sigma</span><span class="o">=</span><span class="nf">diag</span><span class="p">(</span><span class="n">ntasks</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">noise_sd</span><span class="p">)</span>
+<span class="n">observed_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">observed_vals</span><span class="p">)</span>
+<span class="nf">names</span><span class="p">(</span><span class="n">observed_df</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tasknames</span>
+
+<span class="n">cormtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="nf">cor</span><span class="p">(</span><span class="n">observed_df</span><span class="p">))</span>
+
+<span class="nf">heatmap.2</span><span class="p">(</span><span class="n">cormtx</span><span class="p">,</span><span class="w"> </span><span class="n">trace</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">symm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span>
+<span class="w">          </span><span class="n">revC</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="nf">viridis</span><span class="p">(</span><span class="m">50</span><span class="p">),</span>
+<span class="w">          </span><span class="n">cellnote</span><span class="o">=</span><span class="nf">round</span><span class="p">(</span><span class="n">cormtx</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">notecol</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_31_0.svg" src="_images/16-MultivariateStats_31_0.svg" /></div>
+</div>
+</section>
+<section id="factor-analysis-output">
+<h2>Factor analysis output<a class="headerlink" href="#factor-analysis-output" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">fa_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fa</span><span class="p">(</span><span class="n">observed_df</span><span class="p">,</span><span class="w"> </span><span class="n">nfactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">fa_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required namespace: GPArotation
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Factor analysis with Call: fa(r = observed_df, nfactors = 3)
+
+Test of the hypothesis that 3 factors are sufficient.
+The degrees of freedom for the model is 7  and the objective function was  0.04 
+The number of observations was  200  with Chi Square =  7.96  with prob &lt;  0.34 
+
+The root mean square of the residuals (RMSA) is  0.01 
+The df corrected root mean square of the residuals is  0.03 
+
+Tucker Lewis Index of factoring reliability =  0.993
+RMSEA index =  0.026  and the 10 % confidence intervals are  0 0.094
+BIC =  -29.13
+ With factor correlations of 
+     MR1  MR2  MR3
+MR1 1.00 0.03 0.47
+MR2 0.03 1.00 0.03
+MR3 0.47 0.03 1.00
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-16-13">
+<h2>Figure 16.13<a class="headerlink" href="#figure-16-13" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">fa.diagram</span><span class="p">(</span><span class="n">fa_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_35_0.svg" src="_images/16-MultivariateStats_35_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-14">
+<h2>Figure 16.14<a class="headerlink" href="#figure-16-14" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">BIC_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">nfactors</span><span class="o">=</span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">SABIC</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">nrow</span><span class="p">(</span><span class="n">BIC_results</span><span class="p">)){</span>
+<span class="w">  </span><span class="n">BIC_results</span><span class="o">$</span><span class="n">SABIC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">fa</span><span class="p">(</span><span class="n">observed_df</span><span class="p">,</span><span class="w"> </span><span class="n">nfactors</span><span class="o">=</span><span class="n">BIC_results</span><span class="o">$</span><span class="n">nfactors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">$</span><span class="n">SABIC</span>
+<span class="p">}</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">BIC_results</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">nfactors</span><span class="p">,</span><span class="w"> </span><span class="n">SABIC</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_line</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_37_0.svg" src="_images/16-MultivariateStats_37_0.svg" /></div>
+</div>
+</section>
+<section id="figure-16-15">
+<h2>Figure 16.15<a class="headerlink" href="#figure-16-15" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">imp_efa_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">behavdata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">adaptive_n_back.mean_load</span><span class="p">,</span>
+<span class="w">                </span><span class="n">bis11_survey.Nonplanning</span><span class="p">,</span>
+<span class="w">                </span><span class="n">cognitive_reflection_survey.correct_proportion</span><span class="p">,</span>
+<span class="w">                </span><span class="n">dickman_survey.dysfunctional</span><span class="p">,</span>
+<span class="w">                </span><span class="n">digit_span.reverse_span</span><span class="p">,</span>
+<span class="w">                </span><span class="n">ravens.score</span><span class="p">,</span>
+<span class="w">                </span><span class="n">spatial_span.reverse_span</span><span class="p">,</span>
+<span class="w">                </span><span class="n">upps_impulsivity_survey.lack_of_premeditation</span>
+<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">UPPS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">upps_impulsivity_survey.lack_of_premeditation</span><span class="p">,</span>
+<span class="w">         </span><span class="n">nback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adaptive_n_back.mean_load</span><span class="p">,</span>
+<span class="w">         </span><span class="n">BIS11</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bis11_survey.Nonplanning</span><span class="p">,</span>
+<span class="w">         </span><span class="n">dickman</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dickman_survey.dysfunctional</span><span class="p">,</span>
+<span class="w">         </span><span class="n">dspan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">digit_span.reverse_span</span><span class="p">,</span>
+<span class="w">         </span><span class="n">sspan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spatial_span.reverse_span</span><span class="p">,</span>
+<span class="w">         </span><span class="n">crt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cognitive_reflection_survey.correct_proportion</span><span class="p">,</span>
+<span class="w">         </span><span class="n">ravens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ravens.score</span>
+<span class="w">         </span><span class="p">)</span>
+
+<span class="n">BIC_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">nfactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">SABIC</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">nrow</span><span class="p">(</span><span class="n">BIC_df</span><span class="p">)){</span>
+<span class="w">  </span><span class="n">fa_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fa</span><span class="p">(</span><span class="n">imp_efa_df</span><span class="p">,</span><span class="w"> </span><span class="n">nfactors</span><span class="o">=</span><span class="n">BIC_df</span><span class="o">$</span><span class="n">nfactors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="w">  </span><span class="n">BIC_df</span><span class="o">$</span><span class="n">SABIC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fa_result</span><span class="o">$</span><span class="n">SABIC</span>
+<span class="p">}</span>
+
+<span class="c1">#ggplot(BIC_df, aes(nfactors, SABIC)) +</span>
+<span class="c1">#  geom_line()</span>
+
+<span class="n">fa_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fa</span><span class="p">(</span><span class="n">imp_efa_df</span><span class="p">,</span><span class="w"> </span><span class="n">nfactors</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+
+<span class="c1">#summary(fa_result)</span>
+
+<span class="nf">fa.diagram</span><span class="p">(</span><span class="n">fa_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/16-MultivariateStats_39_0.svg" src="_images/16-MultivariateStats_39_0.svg" /></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="15-ComparingMeans.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Chapter 15: Comparing means</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="17-PracticalExamples.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 17: Practical statistical modeling</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Russell Poldrack<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

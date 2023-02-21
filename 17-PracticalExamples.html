@@ -1,0 +1,2312 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Chapter 17: Practical statistical modeling &#8212; R Code and figures for Statistical Thinking: Analyzing Data in an Uncertain World</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 18: Doing reproducible research" href="18-DoingReproducibleResearch.html" />
+    <link rel="prev" title="Chapter 16: Multivariate statistics" href="16-MultivariateStats.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">R Code and figures for Statistical Thinking: Analyzing Data in an Uncertain World</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    <no title>
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Intro.html">
+   Chapter 1: Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-Data.html">
+   Chapter 2: Working with data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-SummarizingData.html">
+   Chapter 3: Summarizing data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-VisualizingData.html">
+   Chapter 4: Data Visualization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-FittingModels.html">
+   Chapter 5: Fitting models to data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Probability.html">
+   Chapter 6: Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-Sampling.html">
+   Chapter 7: Sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-Resampling.html">
+   Chapter 8: Resampling and simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-HypothesisTesting.html">
+   Chapter 9: Hypothesis testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-ConfIntEffectSize.html">
+   Chapter 10: Quantifying effects and designing studies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="11-BayesianStatistics.html">
+   Chapter 11: Bayesian statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12-CategoricalRelationships.html">
+   Chapter 12: Modeling categorical relationships
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="13-ContinuousRelationships.html">
+   Chapter 13: Modeling continuous relationships
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="14-GeneralLinearModel.html">
+   Chapter 14: The General Linear Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="15-ComparingMeans.html">
+   Chapter 15: Comparing means
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="16-MultivariateStats.html">
+   Chapter 16: Multivariate statistics
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 17: Practical statistical modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="18-DoingReproducibleResearch.html">
+   Chapter 18: Doing reproducible research
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/17-PracticalExamples.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/17-PracticalExamples.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-1-outliers-and-influential-observations">
+   Figure 17.1 Outliers and influential observations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-2-collider-bias">
+   Figure 17.2: Collider bias
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-1-self-regulation-and-arrest">
+   Example 1: Self-regulation and arrest
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-17-1">
+   Table 17.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-3">
+   Figure 17.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-4">
+   Figure 17.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-5">
+   Figure 17.5
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-6-logistic-regression">
+   Figure 17.6: Logistic regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-7">
+     Figure 17.7
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#table-17-2">
+     Table 17.2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-2-mask-wearing-and-face-touching">
+   Example 2: Mask-wearing and face-touching
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-8">
+     Figure 17.8
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-9">
+     Figure 17.9
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#table-17-3">
+     Table 17.3
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-3-asthma-and-air-pollution">
+   Example 3: Asthma and air pollution
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prepare-the-data-for-analysis">
+     3. Prepare the data for analysis
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-10">
+     Figure 17.10
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-11">
+     Figure 17.11
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-12">
+     Figure 17.12
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#table-17-4">
+     Table 17.4
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-4-response-of-plants-to-nitrogen-fertilizers-and-soil-tilling">
+   Example 4: Response of plants to nitrogen fertilizers and soil tilling
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prepare-and-visualize-the-data">
+     3. Prepare and visualize the data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-13">
+     Figure 17.13
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-14">
+     Figure 17.14
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-15">
+     Figure 17.15
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Chapter 17: Practical statistical modeling</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-1-outliers-and-influential-observations">
+   Figure 17.1 Outliers and influential observations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-2-collider-bias">
+   Figure 17.2: Collider bias
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-1-self-regulation-and-arrest">
+   Example 1: Self-regulation and arrest
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-17-1">
+   Table 17.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-3">
+   Figure 17.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-4">
+   Figure 17.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-5">
+   Figure 17.5
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-17-6-logistic-regression">
+   Figure 17.6: Logistic regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-7">
+     Figure 17.7
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#table-17-2">
+     Table 17.2
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-2-mask-wearing-and-face-touching">
+   Example 2: Mask-wearing and face-touching
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-8">
+     Figure 17.8
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-9">
+     Figure 17.9
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#table-17-3">
+     Table 17.3
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-3-asthma-and-air-pollution">
+   Example 3: Asthma and air pollution
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prepare-the-data-for-analysis">
+     3. Prepare the data for analysis
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-10">
+     Figure 17.10
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-11">
+     Figure 17.11
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-12">
+     Figure 17.12
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#table-17-4">
+     Table 17.4
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-4-response-of-plants-to-nitrogen-fertilizers-and-soil-tilling">
+   Example 4: Response of plants to nitrogen fertilizers and soil tilling
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prepare-and-visualize-the-data">
+     3. Prepare and visualize the data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-13">
+     Figure 17.13
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-14">
+     Figure 17.14
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#figure-17-15">
+     Figure 17.15
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-17-practical-statistical-modeling">
+<h1>Chapter 17: Practical statistical modeling<a class="headerlink" href="#chapter-17-practical-statistical-modeling" title="Permalink to this headline">#</a></h1>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">car</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">emmeans</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">cowplot</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
+<span class="c1"># library(ggfortify)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">gplots</span><span class="p">)</span>
+<span class="c1"># library(matlab)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dendextend</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">psych</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">MuMIn</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">lme4</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">lmerTest</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">broom</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">DHARMa</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggbeeswarm</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">viridis</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">influence.ME</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">broom.mixed</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggExtra</span><span class="p">)</span>
+
+<span class="nf">theme_set</span><span class="p">(</span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">))</span>
+
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123456</span><span class="p">)</span><span class="w"> </span><span class="c1"># set random seed to exactly replicate results</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: carData
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching packages</span> ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2</span> 3.4.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr  </span> 1.0.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble </span> 3.1.8     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr  </span> 1.1.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr  </span> 1.3.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr</span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr  </span> 2.1.4     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats</span> 1.0.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">recode()</span> masks <span class=" -Color -Color-Blue">car</span>::recode()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">purrr</span>::<span class=" -Color -Color-Green">some()</span>   masks <span class=" -Color -Color-Blue">car</span>::some()
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘gplots’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:stats’:
+
+    lowess
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---------------------
+Welcome to dendextend version 1.16.0
+Type citation(&#39;dendextend&#39;) for how to cite the package.
+
+Type browseVignettes(package = &#39;dendextend&#39;) for the package vignette.
+The github page is: https://github.com/talgalili/dendextend/
+
+Suggestions and bug-reports can be submitted at: https://github.com/talgalili/dendextend/issues
+You may ask questions at stackoverflow, use the r and dendextend tags: 
+	 https://stackoverflow.com/questions/tagged/dendextend
+
+	To suppress this message use:  suppressPackageStartupMessages(library(dendextend))
+---------------------
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘dendextend’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:stats’:
+
+    cutree
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘psych’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following objects are masked from ‘package:ggplot2’:
+
+    %+%, alpha
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:car’:
+
+    logit
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: Matrix
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘Matrix’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following objects are masked from ‘package:tidyr’:
+
+    expand, pack, unpack
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘lmerTest’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:lme4’:
+
+    lmer
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:stats’:
+
+    step
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>This is DHARMa 0.4.6. For overview type &#39;?DHARMa&#39;. For recent changes, type news(package = &#39;DHARMa&#39;)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: viridisLite
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘influence.ME’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:stats’:
+
+    influence
+</pre></div>
+</div>
+</div>
+</div>
+<section id="figure-17-1-outliers-and-influential-observations">
+<h2>Figure 17.1 Outliers and influential observations<a class="headerlink" href="#figure-17-1-outliers-and-influential-observations" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span>
+<span class="n">npts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">24</span>
+<span class="n">outlier_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">npts</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">npts</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Y</span><span class="o">*</span><span class="m">0.4</span><span class="p">)</span>
+
+<span class="n">lm.result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">outlier_df</span><span class="p">)</span>
+<span class="n">model.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="n">lm.result</span><span class="p">)</span>
+<span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">model.data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s">&#39;lm&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">model.data</span><span class="o">$</span><span class="n">.cooksd</span><span class="o">*</span><span class="m">10</span><span class="p">)</span>
+<span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggMarginal</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;boxplot&quot;</span><span class="p">)</span>
+<span class="n">p2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Continuous <span class=" -Color -Color-Green">x</span> aesthetic
+<span class=" -Color -Color-Cyan">ℹ</span> did you forget `aes(group = ...)`?”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Continuous <span class=" -Color -Color-Green">x</span> aesthetic
+<span class=" -Color -Color-Cyan">ℹ</span> did you forget `aes(group = ...)`?”
+</pre></div>
+</div>
+<img alt="_images/17-PracticalExamples_3_4.svg" src="_images/17-PracticalExamples_3_4.svg" /></div>
+</div>
+</section>
+<section id="figure-17-2-collider-bias">
+<h2>Figure 17.2: Collider bias<a class="headerlink" href="#figure-17-2-collider-bias" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://observablehq.com/@herbps10/collider-bias</span>
+<span class="n">npts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123456</span><span class="p">)</span>
+
+<span class="n">conf_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">npts</span><span class="p">,</span><span class="w"> </span><span class="m">175</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">),</span>
+<span class="w">                     </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">npts</span><span class="p">,</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">zheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">height</span><span class="p">),</span>
+<span class="w">         </span><span class="n">zspeed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">speed</span><span class="p">),</span>
+<span class="w">         </span><span class="n">speedXheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zheight</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">zspeed</span><span class="p">,</span>
+<span class="w">         </span><span class="n">NBA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">speedXheight</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nf">quantile</span><span class="p">(</span><span class="n">speedXheight</span><span class="p">,</span><span class="w"> </span><span class="n">.</span><span class="m">90</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">speed</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">height</span><span class="p">)))</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">conf_df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">NBA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_5_0.svg" src="_images/17-PracticalExamples_5_0.svg" /></div>
+</div>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">speed</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">conf_df</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = speed ~ height, data = conf_df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-28.559  -7.363  -0.107   7.402  36.052 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 49.542457   2.865519  17.289   &lt;2e-16 ***
+height       0.002157   0.016250   0.133    0.894    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 10.19 on 998 degrees of freedom
+Multiple R-squared:  1.765e-05,	Adjusted R-squared:  -0.0009843 
+F-statistic: 0.01762 on 1 and 998 DF,  p-value: 0.8944
+</pre></div>
+</div>
+</div>
+</div>
+<p>Model with NBA player status (collider)</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">speed</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">NBA</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">conf_df</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = speed ~ height + NBA, data = conf_df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-27.917  -6.848  -0.118   7.000  36.294 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 58.09588    2.85426  20.354  &lt; 2e-16 ***
+height      -0.05070    0.01632  -3.107  0.00194 ** 
+NBATRUE     16.08565    1.57750  10.197  &lt; 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 9.701 on 997 degrees of freedom
+Multiple R-squared:  0.09446,	Adjusted R-squared:  0.09264 
+F-statistic:    52 on 2 and 997 DF,  p-value: &lt; 2.2e-16
+</pre></div>
+</div>
+</div>
+</div>
+<p>same regression only on the NBA players, where we see a strong negative relationship between speed and height:</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">speed</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">conf_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">NBA</span><span class="o">==</span><span class="kc">TRUE</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = speed ~ height, data = conf_df %&gt;% dplyr::filter(NBA == 
+    TRUE))
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.6078 -3.7125 -0.9888  2.5072 12.7771 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 131.6209    12.9493  10.164 6.88e-13 ***
+height       -0.3315     0.0632  -5.245 4.79e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 4.785 on 42 degrees of freedom
+Multiple R-squared:  0.3958,	Adjusted R-squared:  0.3814 
+F-statistic: 27.51 on 1 and 42 DF,  p-value: 4.792e-06
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-self-regulation-and-arrest">
+<h2>Example 1: Self-regulation and arrest<a class="headerlink" href="#example-1-self-regulation-and-arrest" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">behavdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/Eisenberg/meaningful_variables.csv&#39;</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="n">demoghealthdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/Eisenberg/demographic_health.csv&#39;</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+
+<span class="c1"># dplyr::recode Sex variable from 0/1 to Male/Female</span>
+<span class="n">demoghealthdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">demoghealthdata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode_factor</span><span class="p">(</span><span class="n">Sex</span><span class="p">,</span><span class="w"> </span><span class="n">`0`</span><span class="o">=</span><span class="s">&quot;Male&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">`1`</span><span class="o">=</span><span class="s">&quot;Female&quot;</span><span class="p">))</span>
+
+<span class="c1"># combine the data into a single data frame by subcode</span>
+<span class="n">alldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">behavdata</span><span class="p">,</span><span class="w"> </span><span class="n">demoghealthdata</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s">&#39;subcode&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="table-17-1">
+<h2>Table 17.1<a class="headerlink" href="#table-17-1" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">arrestdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">alldata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">(</span><span class="n">ArrestedChargedLifeCount</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">everArrested</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ArrestedChargedLifeCount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+
+<span class="c1">#ggplot(arrestdata,aes(ArrestedChargedLifeCount)) +</span>
+<span class="c1">#  geom_histogram(bins=max(unique(arrestdata$ArrestedChargedLifeCount)) + 1) # add 1 to account for zeros</span>
+
+<span class="n">arrest_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">arrestdata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">ArrestedChargedLifeCount</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">summarize</span><span class="p">(</span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">proportion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">()</span><span class="o">/</span><span class="nf">nrow</span><span class="p">(</span><span class="n">arrestdata</span><span class="p">))</span>
+
+<span class="nf">kable</span><span class="p">(</span><span class="n">arrest_table</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Frequency distribution of number of reported arrests in the Eisenberg et al. dataset&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Frequency distribution of number of reported arrests in the Eisenberg et al. dataset
+
+| ArrestedChargedLifeCount| number| proportion|
+|------------------------:|------:|----------:|
+|                        0|    409|      0.785|
+|                        1|     58|      0.111|
+|                        2|     33|      0.063|
+|                        3|      9|      0.017|
+|                        4|      5|      0.010|
+|                        5|      5|      0.010|
+|                        6|      2|      0.004|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-17-3">
+<h2>Figure 17.3<a class="headerlink" href="#figure-17-3" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, rename the survey variables so that they are shorter, and find all variables related to impulsivity.  We will first rename the variables so taht their names are shorter, for easier display.</span>
+
+<span class="n">rename_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="s">&#39;upps_impulsivity_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;UPPS&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;sensation_seeking_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;SSS&#39;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&#39;dickman_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;Dickman&#39;</span><span class="p">,</span><span class="w">  </span><span class="s">&#39;bis11_survey&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;BIS11&#39;</span><span class="p">)</span>
+<span class="n">impulsivity_variables</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">()</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">potential_match</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">alldata</span><span class="p">)){</span>
+<span class="w">  </span><span class="nf">for </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">rename_list</span><span class="p">)){</span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="nf">str_detect</span><span class="p">(</span><span class="n">potential_match</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)){</span>
+<span class="w">      </span><span class="c1"># print(sprintf(&#39;found match: %s %s&#39;, n, potential_match))</span>
+<span class="w">      </span><span class="n">replacement_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">str_replace</span><span class="p">(</span><span class="n">potential_match</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="nf">toString</span><span class="p">(</span><span class="n">rename_list</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+<span class="w">      </span><span class="nf">names</span><span class="p">(</span><span class="n">alldata</span><span class="p">)[</span><span class="nf">names</span><span class="p">(</span><span class="n">alldata</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">potential_match</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">replacement_name</span>
+<span class="w">      </span><span class="n">impulsivity_variables</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">impulsivity_variables</span><span class="p">,</span><span class="w"> </span><span class="n">replacement_name</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">impulsivity_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">alldata</span><span class="p">[,</span><span class="n">impulsivity_variables</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">()</span>
+<span class="n">cc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">impulsivity_data</span><span class="p">,</span><span class="w"> </span><span class="n">use</span><span class="o">=</span><span class="s">&#39;pairwise.complete&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">viridis</span><span class="p">(</span><span class="m">100</span><span class="p">)</span>
+<span class="n">cellvalues</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">nsmall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mar</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">8</span><span class="p">)</span><span class="m">+0.1</span><span class="p">)</span>
+<span class="n">hm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">heatmap.2</span><span class="p">(</span><span class="n">cc</span><span class="p">,</span><span class="w"> </span><span class="n">trace</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">dendrogram</span><span class="o">=</span><span class="s">&#39;row&#39;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">cellnote</span><span class="o">=</span><span class="n">cellvalues</span><span class="p">,</span><span class="w"> </span><span class="n">notecol</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">col</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span><span class="w"> </span><span class="n">margins</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">14</span><span class="p">),</span><span class="w"> </span><span class="n">revC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_17_0.svg" src="_images/17-PracticalExamples_17_0.svg" /></div>
+</div>
+</section>
+<section id="figure-17-4">
+<h2>Figure 17.4<a class="headerlink" href="#figure-17-4" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># use the clustering from the heatmap to identify the two sets of variables</span>
+<span class="n">groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cutree</span><span class="p">(</span><span class="n">hm</span><span class="o">$</span><span class="n">rowDendrogram</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+<span class="n">vars_cluster1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="n">groups</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">])</span>
+<span class="n">vars_cluster2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="n">groups</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">2</span><span class="p">])</span>
+
+<span class="c1"># compute the mean impulsivity and sensation seeking values for each individual</span>
+<span class="c1"># standardize the  measures to  make interpretation of the model easier</span>
+
+<span class="n">alldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">alldata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rowMeans</span><span class="p">(</span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="nf">all_of</span><span class="p">(</span><span class="n">vars_cluster1</span><span class="p">)),</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
+<span class="w">         </span><span class="n">mean_impulsivity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="p">))</span><span class="o">/</span><span class="nf">sd</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="p">),</span>
+<span class="w">         </span><span class="n">mean_senseek</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rowMeans</span><span class="p">(</span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="nf">all_of</span><span class="p">(</span><span class="n">vars_cluster2</span><span class="p">)),</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
+<span class="w">         </span><span class="n">mean_senseek</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">mean_senseek</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">mean_senseek</span><span class="p">))</span><span class="o">/</span><span class="nf">sd</span><span class="p">(</span><span class="n">mean_senseek</span><span class="p">))</span>
+
+
+<span class="c1"># create some additional useful variables, and clean up the data frame</span>
+<span class="c1"># to only include the variables of interest and individuals without missing data</span>
+<span class="n">arrestdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">alldata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">everArrested</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ArrestedChargedLifeCount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">         </span><span class="n">anyTickets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrafficTicketsLastYearCount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">         </span><span class="n">anyAccidents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrafficAccidentsLifeCount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="p">,</span><span class="w"> </span><span class="n">mean_senseek</span><span class="p">,</span><span class="w"> </span><span class="n">ArrestedChargedLifeCount</span><span class="p">,</span>
+<span class="w">           </span><span class="n">everArrested</span><span class="p">,</span><span class="w"> </span><span class="n">anyTickets</span><span class="p">,</span><span class="w"> </span><span class="n">TrafficTicketsLastYearCount</span><span class="p">,</span>
+<span class="w">           </span><span class="n">anyAccidents</span><span class="p">,</span><span class="n">TrafficAccidentsLifeCount</span><span class="p">,</span><span class="w"> </span><span class="n">Age</span><span class="p">,</span><span class="w"> </span><span class="n">Sex</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">everArrestedInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">everArrested</span><span class="p">),</span>
+<span class="w">    </span><span class="n">everArrested</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode_factor</span><span class="p">(</span><span class="n">everArrestedInt</span><span class="p">,</span><span class="w"> </span><span class="n">`1`</span><span class="o">=</span><span class="s">&#39;Arrested&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">`0`</span><span class="o">=</span><span class="s">&#39;NotArrested&#39;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">SexInt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode</span><span class="p">(</span><span class="n">Sex</span><span class="p">,</span><span class="w"> </span><span class="n">Female</span><span class="o">=</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">Male</span><span class="o">=</span><span class="m">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">pairs.panels</span><span class="p">(</span><span class="n">arrestdata</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;mean_impulsivity&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;mean_senseek&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_20_0.svg" src="_images/17-PracticalExamples_20_0.svg" /></div>
+</div>
+</section>
+<section id="figure-17-5">
+<h2>Figure 17.5<a class="headerlink" href="#figure-17-5" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">plotdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="n">arrestdata</span><span class="p">,</span>
+<span class="w">                        </span><span class="nf">c</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="p">,</span><span class="w"> </span><span class="n">mean_senseek</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;variable&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">variable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span><span class="w"> </span><span class="n">mean_impulsivity</span><span class="o">=</span><span class="s">&quot;Mean impulsivity&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="n">mean_senseek</span><span class="o">=</span><span class="s">&quot;Mean sens. seeking&quot;</span><span class="p">))</span>
+
+
+<span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">plotdata</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">everArrested</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_beeswarm</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">facet_grid</span><span class="p">(</span><span class="n">.</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">variable</span><span class="p">)</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">arrestdata</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">everArrested</span><span class="p">,</span><span class="w"> </span><span class="n">mean_impulsivity</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_beeswarm</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;Mean impulsivity&#39;</span><span class="p">)</span>
+<span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">arrestdata</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">everArrested</span><span class="p">,</span><span class="w"> </span><span class="n">mean_senseek</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_beeswarm</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;Mean sensation seeking&#39;</span><span class="p">)</span>
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_22_0.svg" src="_images/17-PracticalExamples_22_0.svg" /></div>
+</div>
+<p>t-test output for the mean impulsivity scores:</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">t.test</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">everArrested</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">arrestdata</span><span class="p">,</span><span class="w"> </span><span class="n">alternative</span><span class="o">=</span><span class="s">&#39;greater&#39;</span><span class="p">)</span>
+<span class="n">imp_arrest_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cohen.d</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">everArrested</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">arrestdata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Welch Two Sample t-test
+
+data:  mean_impulsivity by everArrested
+t = 2.9105, df = 160.93, p-value = 0.00206
+alternative hypothesis: true difference in means between group Arrested and group NotArrested is greater than 0
+95 percent confidence interval:
+ 0.1430254       Inf
+sample estimates:
+   mean in group Arrested mean in group NotArrested 
+                0.2618746                -0.0695193 
+</pre></div>
+</div>
+</div>
+</div>
+<p>t-test output for the sensation seeking variable:</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">t.test</span><span class="p">(</span><span class="n">mean_senseek</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">everArrested</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">arrestdata</span><span class="p">,</span><span class="w"> </span><span class="n">alternative</span><span class="o">=</span><span class="s">&#39;greater&#39;</span><span class="p">)</span>
+<span class="n">imp_arrest_d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cohen.d</span><span class="p">(</span><span class="n">mean_senseek</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">everArrested</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">arrestdata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Welch Two Sample t-test
+
+data:  mean_senseek by everArrested
+t = 4.7691, df = 182.38, p-value = 1.887e-06
+alternative hypothesis: true difference in means between group Arrested and group NotArrested is greater than 0
+95 percent confidence interval:
+ 0.3167728       Inf
+sample estimates:
+   mean in group Arrested mean in group NotArrested 
+                0.3758469                -0.1090015 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-17-6-logistic-regression">
+<h2>Figure 17.6: Logistic regression<a class="headerlink" href="#figure-17-6-logistic-regression" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span>
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>
+<span class="n">b0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span>
+<span class="n">b1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+
+<span class="n">logreg_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">b0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b1</span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)),</span>
+<span class="w">         </span><span class="n">y_bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">1</span><span class="o">/</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">/</span><span class="nf">sd</span><span class="p">(</span><span class="n">y</span><span class="p">)))))</span>
+<span class="n">lm_result_binary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y_bin</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">logreg_df</span><span class="p">)</span>
+<span class="n">glm_result_binary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">y_bin</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="n">binomial</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">logreg_df</span><span class="p">)</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">logreg_df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_bin</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_jitter</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s">&#39;lm&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&#39;B) Linear regression&#39;</span><span class="p">)</span>
+
+<span class="n">pred_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">seq</span><span class="p">(</span><span class="m">-25</span><span class="p">,</span><span class="w"> </span><span class="m">25</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="n">.</span><span class="m">1</span><span class="p">))</span>
+<span class="n">pred_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pred_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">glm_result_binary</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="o">=</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&#39;response&#39;</span><span class="p">))</span>
+
+<span class="n">p2</span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">logreg_df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_bin</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_jitter</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">pred_df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&#39;B) Logistic regression&#39;</span><span class="p">)</span>
+
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<img alt="_images/17-PracticalExamples_28_1.svg" src="_images/17-PracticalExamples_28_1.svg" /></div>
+</div>
+<p>Logistic regression output:</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">glm_result_binary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+glm(formula = y_bin ~ x, family = binomial, data = logreg_df)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.3453  -0.8524  -0.4870   0.8256   2.1367  
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  0.05597    0.25148   0.223    0.824    
+x            0.15406    0.03363   4.581 4.62e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 137.63  on 99  degrees of freedom
+Residual deviance: 103.31  on 98  degrees of freedom
+AIC: 107.31
+
+Number of Fisher Scoring iterations: 4
+</pre></div>
+</div>
+</div>
+</div>
+<p>Logistic regression output for impulsivity dataset</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">impmodeldata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">arrestdata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">everArrestedInt</span><span class="p">,</span><span class="w"> </span><span class="n">mean_impulsivity</span><span class="p">,</span><span class="w"> </span><span class="n">mean_senseek</span><span class="p">,</span><span class="w"> </span><span class="n">Age</span><span class="p">,</span><span class="w"> </span><span class="n">Sex</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">AgeSquared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Age</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">Age</span><span class="p">))</span><span class="o">**</span><span class="m">2</span><span class="p">)</span>
+
+<span class="c1"># glm requires int or logical variable as Y</span>
+<span class="n">glm_imp_arrest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">everArrestedInt</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">mean_impulsivity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mean_senseek</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Age</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="n">AgeSquared</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Sex</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">data</span><span class="o">=</span><span class="n">impmodeldata</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="n">binomial</span><span class="p">)</span>
+<span class="n">glm_imp_arrest_baseline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">everArrestedInt</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Sex</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">data</span><span class="o">=</span><span class="n">impmodeldata</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="n">binomial</span><span class="p">)</span>
+<span class="n">probabilities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">glm_imp_arrest</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;response&quot;</span><span class="p">)</span>
+<span class="n">predicted.classes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="n">probabilities</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pos&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;neg&quot;</span><span class="p">)</span>
+<span class="n">model.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="n">glm_imp_arrest</span><span class="p">)</span>
+
+<span class="n">glm_imp_arrest</span>
+<span class="c1"># summary(glm_imp_arrest)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:  glm(formula = everArrestedInt ~ mean_impulsivity + mean_senseek + 
+    Age + AgeSquared + Sex, family = binomial, data = impmodeldata)
+
+Coefficients:
+     (Intercept)  mean_impulsivity      mean_senseek               Age  
+       -3.294753          0.306971          0.383251          0.072638  
+      AgeSquared         SexFemale  
+       -0.004233         -0.686395  
+
+Degrees of Freedom: 520 Total (i.e. Null);  515 Residual
+Null Deviance:	    542.3 
+Residual Deviance: 495.4 	AIC: 507.4
+</pre></div>
+</div>
+</div>
+</div>
+<p>Test for overdispersion</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">testDispersion</span><span class="p">(</span><span class="n">glm_imp_arrest</span><span class="p">,</span><span class="w"> </span><span class="n">alternative</span><span class="o">=</span><span class="s">&#39;greater&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&#39;PearsonChisq&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Parametric dispersion test via mean Pearson-chisq statistic
+
+data:  glm_imp_arrest
+dispersion = 1.0409, df = 515, p-value = 0.2522
+alternative hypothesis: greater
+</pre></div>
+</div>
+</div>
+</div>
+<section id="figure-17-7">
+<h3>Figure 17.7<a class="headerlink" href="#figure-17-7" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">cat_logit_est</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">iv</span><span class="p">){</span>
+<span class="w">  </span><span class="n">ncats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="nf">unique</span><span class="p">(</span><span class="n">iv</span><span class="p">))</span><span class="o">/</span><span class="m">2</span><span class="p">))</span>
+<span class="w">  </span><span class="n">iv_cut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cut_number</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="w"> </span><span class="n">ncats</span><span class="p">)</span>
+<span class="w">  </span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">everArrestedInt</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">iv_cut</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="n">binomial</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">impmodeldata</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">mod</span><span class="o">$</span><span class="n">linear.predictors</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">loess_logit_est</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="m">1</span><span class="p">){</span>
+<span class="w">  </span><span class="n">fit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">loess</span><span class="p">(</span><span class="n">everArrestedInt</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">iv</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">impmodeldata</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">)</span><span class="o">$</span><span class="n">fitted</span>
+<span class="w">  </span><span class="n">fit</span><span class="p">[</span><span class="n">fit</span><span class="o">&lt;=</span><span class="m">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="c1">#negatives can happen at edges</span>
+<span class="w">  </span><span class="n">logit_of_fit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">logit</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">logit_of_fit</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># pull out continuous predictors</span>
+<span class="n">predictors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">model.data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">everArrestedInt</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">Sex</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)))</span>
+
+<span class="n">use_glm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
+<span class="nf">if </span><span class="p">(</span><span class="n">use_glm</span><span class="p">){</span>
+<span class="w">  </span><span class="n">model_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Using glm() to estimate logit&quot;</span>
+<span class="w">  </span><span class="n">model.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model.data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">observed_logit_Age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cat_logit_est</span><span class="p">(</span><span class="n">Age</span><span class="p">),</span>
+<span class="w">           </span><span class="n">observed_logit_senseek</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cat_logit_est</span><span class="p">(</span><span class="n">mean_senseek</span><span class="p">),</span>
+<span class="w">           </span><span class="n">observed_logit_impuls</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nf">cat_logit_est</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="p">))</span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">model_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Using loess() to estimate logit&quot;</span>
+<span class="w">  </span><span class="n">model.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model.data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">observed_logit_Age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">loess_logit_est</span><span class="p">(</span><span class="n">Age</span><span class="p">),</span>
+<span class="w">           </span><span class="n">observed_logit_senseek</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">loess_logit_est</span><span class="p">(</span><span class="n">mean_senseek</span><span class="p">),</span>
+<span class="w">           </span><span class="n">observed_logit_impuls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">loess_logit_est</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="p">))</span>
+<span class="p">}</span>
+
+
+<span class="n">point_alpha</span><span class="o">=</span><span class="n">.</span><span class="m">3</span>
+<span class="n">jitter_width</span><span class="o">=</span><span class="m">0</span>
+<span class="n">jitter_height</span><span class="o">=</span><span class="n">.</span><span class="m">1</span>
+<span class="n">p1</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">model.data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">Age</span><span class="p">,</span><span class="n">observed_logit_Age</span><span class="p">,</span><span class="w">  </span><span class="n">size</span><span class="o">=</span><span class="n">.cooksd</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">jitter_width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="n">jitter_height</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">point_alpha</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="n">model_string</span><span class="p">)</span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">model.data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">mean_senseek</span><span class="p">,</span><span class="n">observed_logit_senseek</span><span class="p">,</span><span class="w">  </span><span class="n">size</span><span class="o">=</span><span class="n">.cooksd</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">jitter_width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="n">jitter_height</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">point_alpha</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
+
+<span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">model.data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">mean_impulsivity</span><span class="p">,</span><span class="n">observed_logit_impuls</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">.cooksd</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">jitter_width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="n">jitter_height</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">point_alpha</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="n">span</span><span class="o">=</span><span class="m">1</span><span class="p">)</span>
+
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">)</span>
+<span class="c1"># ggplot(impmodeldata_long_sample, aes(sample_logit, .fitted)) +</span>
+<span class="c1">#   geom_point() +</span>
+<span class="c1">#   facet_wrap(~predictors, scales = &quot;free_x&quot;) +</span>
+<span class="c1">#   geom_smooth(se=FALSE)</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+<span class=" -Color -Color-Cyan">ℹ</span> Please use `linewidth` instead.”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“The following aesthetics were dropped during statistical transformation: <span class=" -Color -Color-Green">size</span>
+<span class=" -Color -Color-Cyan">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in the data.
+<span class=" -Color -Color-Cyan">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical variable into a factor?”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“The following aesthetics were dropped during statistical transformation: <span class=" -Color -Color-Green">size</span>
+<span class=" -Color -Color-Cyan">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in the data.
+<span class=" -Color -Color-Cyan">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical variable into a factor?”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“The following aesthetics were dropped during statistical transformation: <span class=" -Color -Color-Green">size</span>
+<span class=" -Color -Color-Cyan">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in the data.
+<span class=" -Color -Color-Cyan">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical variable into a factor?”
+</pre></div>
+</div>
+<img alt="_images/17-PracticalExamples_36_7.svg" src="_images/17-PracticalExamples_36_7.svg" /></div>
+</div>
+<p>model including <span class="math notranslate nohighlight">\(Age^2\)</span> alongside Age</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">glm_imp_arrest2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">everArrestedInt</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">mean_impulsivity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mean_senseek</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Age</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="n">AgeSquared</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Sex</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">data</span><span class="o">=</span><span class="n">impmodeldata</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="n">binomial</span><span class="p">)</span>
+<span class="n">glm_imp_arrest_baseline2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">everArrestedInt</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">AgeSquared</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Sex</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">data</span><span class="o">=</span><span class="n">impmodeldata</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="n">binomial</span><span class="p">)</span>
+
+<span class="nf">summary</span><span class="p">(</span><span class="n">glm_imp_arrest2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+glm(formula = everArrestedInt ~ mean_impulsivity + mean_senseek + 
+    Age + AgeSquared + Sex, family = binomial, data = impmodeldata)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.4676  -0.7270  -0.5532  -0.3318   2.6388  
+
+Coefficients:
+                  Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)      -3.294753   0.601139  -5.481 4.23e-08 ***
+mean_impulsivity  0.306971   0.114057   2.691  0.00712 ** 
+mean_senseek      0.383251   0.118646   3.230  0.00124 ** 
+Age               0.072638   0.018644   3.896 9.78e-05 ***
+AgeSquared       -0.004233   0.001866  -2.269  0.02327 *  
+SexFemale        -0.686395   0.238219  -2.881  0.00396 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 542.33  on 520  degrees of freedom
+Residual deviance: 495.45  on 515  degrees of freedom
+AIC: 507.45
+
+Number of Fisher Scoring iterations: 4
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="table-17-2">
+<h3>Table 17.2<a class="headerlink" href="#table-17-2" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">oddsratios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="nf">cbind</span><span class="p">(</span><span class="s">&quot;Odds ratio&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="n">glm_imp_arrest</span><span class="p">),</span><span class="w"> </span><span class="nf">confint.default</span><span class="p">(</span><span class="n">glm_imp_arrest</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">)))[</span><span class="m">2</span><span class="o">:</span><span class="m">6</span><span class="p">,]</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">oddsratios</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Effect sizes for each of the variables in the logistic regression model, expressed as odds ratios, along with 95 percent confidence limits for each odds ratio.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Effect sizes for each of the variables in the logistic regression model, expressed as odds ratios, along with 95 percent confidence limits for each odds ratio.
+
+|                 | Odds ratio| 2.5 %| 97.5 %|
+|:----------------|----------:|-----:|------:|
+|mean_impulsivity |      1.359| 1.087|  1.700|
+|mean_senseek     |      1.467| 1.163|  1.851|
+|Age              |      1.075| 1.037|  1.115|
+|AgeSquared       |      0.996| 0.992|  0.999|
+|SexFemale        |      0.503| 0.316|  0.803|
+</pre></div>
+</div>
+</div>
+</div>
+<p>Bayes factor using approximation via BIC</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">BF_01</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">exp</span><span class="p">((</span><span class="nf">BIC</span><span class="p">(</span><span class="n">glm_imp_arrest2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">BIC</span><span class="p">(</span><span class="n">glm_imp_arrest_baseline2</span><span class="p">))</span><span class="o">/</span><span class="m">2</span><span class="p">)</span><span class="w">  </span><span class="c1"># BICs to Bayes factor</span>
+<span class="c1"># 1/BF_01</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="example-2-mask-wearing-and-face-touching">
+<h2>Example 2: Mask-wearing and face-touching<a class="headerlink" href="#example-2-mask-wearing-and-face-touching" title="Permalink to this headline">#</a></h2>
+<section id="figure-17-8">
+<h3>Figure 17.8<a class="headerlink" href="#figure-17-8" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># data cleaning based on .do file distributed with data</span>
+
+<span class="n">maskdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/mask_wearing/DataVersion2/MaskFaceTouchOSF.csv&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">face_touching</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;Missing&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">face_touching</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode</span><span class="p">(</span><span class="n">face_touching</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Yes&#39;</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;No&#39;</span><span class="o">=</span><span class="m">0</span><span class="p">),</span>
+<span class="w">         </span><span class="n">mask_front_touching</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode</span><span class="p">(</span><span class="n">mask_front_touching</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Yes&#39;</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">.default</span><span class="o">=</span><span class="m">0</span><span class="p">),</span>
+<span class="w">         </span><span class="n">mask_strap_touching</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode</span><span class="p">(</span><span class="n">mask_strap_touching</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Yes&#39;</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="n">.default</span><span class="o">=</span><span class="m">0</span><span class="p">),</span>
+<span class="w">         </span><span class="n">face_touching</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">face_touching</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">mask_front_touching</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">mask_strap_touching</span><span class="p">,</span>
+<span class="w">         </span><span class="n">mask_wearing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode</span><span class="p">(</span><span class="n">mask_YesNo</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Yes&#39;</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;No&#39;</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">),</span>
+<span class="w">         </span><span class="n">age_std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">age</span><span class="p">),</span>
+<span class="w">         </span><span class="n">study</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">study</span><span class="p">),</span>
+<span class="w">         </span><span class="n">segment_crowding_std</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">segment_crowding</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">change</span><span class="o">==</span><span class="m">0</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">non_covering</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&#39;Yes&#39;</span><span class="p">)</span>
+
+<span class="n">maskdata_study1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maskdata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">study</span><span class="o">==</span><span class="m">1</span><span class="p">)</span>
+
+<span class="n">maskdata_study2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maskdata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">study</span><span class="o">==</span><span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">898</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">20</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (11): gender, mask_YesNo, fully_covering, partially_covering, non_coveri...
+<span class=" -Color -Color-Green">dbl</span>  (9): age, duration_of_observation, change, segment_crowding, study, loc...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">ggplot</span><span class="p">(</span><span class="n">maskdata</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">study</span><span class="o">=</span><span class="n">dplyr</span><span class="o">::</span><span class="nf">recode</span><span class="p">(</span><span class="n">study</span><span class="p">,</span><span class="w"> </span><span class="n">`1`</span><span class="o">=</span><span class="s">&#39;Study 1&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">`2`</span><span class="o">=</span><span class="s">&#39;Study 2&#39;</span><span class="p">))</span>
+<span class="w">       </span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mask_wearing</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">face_touching</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_bar</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">facet_grid</span><span class="p">(</span><span class="n">.</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">study</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_46_0.svg" src="_images/17-PracticalExamples_46_0.svg" /></div>
+</div>
+<p>simple chi-squared test</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">chisq.test</span><span class="p">(</span><span class="n">maskdata_study1</span><span class="o">$</span><span class="n">mask_wearing</span><span class="p">,</span><span class="w"> </span><span class="n">maskdata_study1</span><span class="o">$</span><span class="n">face_touching</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+
+data:  maskdata_study1$mask_wearing and maskdata_study1$face_touching
+X-squared = 0.029801, df = 1, p-value = 0.8629
+</pre></div>
+</div>
+</div>
+</div>
+<p>analogous test for the data from the second study</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">chisq.test</span><span class="p">(</span><span class="n">maskdata_study2</span><span class="o">$</span><span class="n">mask_wearing</span><span class="p">,</span><span class="w"> </span><span class="n">maskdata_study2</span><span class="o">$</span><span class="n">face_touching</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+
+data:  maskdata_study2$mask_wearing and maskdata_study2$face_touching
+X-squared = 1.0854, df = 1, p-value = 0.2975
+</pre></div>
+</div>
+</div>
+</div>
+<p>Logistic regression  model including duration and study along with mask wearing</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">glm_result_combined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">face_touching</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">mask_wearing</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">duration_of_observation</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">study</span><span class="p">,</span>
+<span class="w">                          </span><span class="n">family</span><span class="o">=</span><span class="n">binomial</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">maskdata</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">glm_result_combined</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+glm(formula = face_touching ~ mask_wearing + duration_of_observation + 
+    study, family = binomial, data = maskdata)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7465  -0.6011  -0.5299  -0.4732   2.1918  
+
+Coefficients:
+                         Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)             -2.770868   0.248228 -11.163  &lt; 2e-16 ***
+mask_wearingTRUE         0.191901   0.197742   0.970  0.33182    
+duration_of_observation  0.028991   0.006182   4.689 2.74e-06 ***
+study2                   0.571684   0.200441   2.852  0.00434 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 718.03  on 803  degrees of freedom
+Residual deviance: 685.00  on 800  degrees of freedom
+AIC: 693
+
+Number of Fisher Scoring iterations: 4
+</pre></div>
+</div>
+</div>
+</div>
+<p>Mixed effects model</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">glmer_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">glmer</span><span class="p">(</span><span class="n">face_touching</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">mask_wearing</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">duration_of_observation</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mask_wearing</span><span class="w">  </span><span class="o">|</span><span class="n">unique_situation</span><span class="p">),</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">maskdata</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="n">binomial</span><span class="p">)</span>
+<span class="n">glmer_result_baseline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">glmer_result</span><span class="p">,</span><span class="w"> </span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="w"> </span><span class="o">-</span><span class="n">mask_wearing</span><span class="p">)</span><span class="w">  </span><span class="c1"># Without mask effect term</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">glmer_result</span><span class="p">)</span>
+
+<span class="n">maskdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maskdata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">glmer_resid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">residuals</span><span class="p">(</span><span class="n">glmer_result</span><span class="p">),</span>
+<span class="w">         </span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: face_touching ~ mask_wearing + duration_of_observation + (1 +  
+    mask_wearing | unique_situation)
+   Data: maskdata
+
+     AIC      BIC   logLik deviance df.resid 
+   704.2    732.4   -346.1    692.2      798 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.6847 -0.4289 -0.3888 -0.3335  3.1095 
+
+Random effects:
+ Groups           Name             Variance Std.Dev. Corr 
+ unique_situation (Intercept)      0.1829   0.4277        
+                  mask_wearingTRUE 0.1599   0.3999   -0.40
+Number of obs: 804, groups:  unique_situation, 129
+
+Fixed effects:
+                         Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)             -2.518255   0.245319 -10.265  &lt; 2e-16 ***
+mask_wearingTRUE         0.145705   0.253822   0.574    0.566    
+duration_of_observation  0.029691   0.006409   4.633 3.61e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) m_TRUE
+msk_wrnTRUE -0.471       
+drtn_f_bsrv -0.698 -0.011
+</pre></div>
+</div>
+</div>
+</div>
+<p>test for overdispersion:</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">testDispersion</span><span class="p">(</span><span class="n">glmer_result</span><span class="p">,</span><span class="w"> </span><span class="n">alternative</span><span class="o">=</span><span class="s">&#39;greater&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&#39;PearsonChisq&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Parametric dispersion test via mean Pearson-chisq statistic
+
+data:  glmer_result
+dispersion = 0.92427, df = 798, p-value = 0.9377
+alternative hypothesis: greater
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-17-9">
+<h3>Figure 17.9<a class="headerlink" href="#figure-17-9" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1">#alt.est.b &lt;- influence(glmer_result, obs=TRUE) #&quot;unique_situation&quot;)</span>
+<span class="c1">#cd = cooks.distance(alt.est.b)</span>
+
+<span class="n">loess_logit_est2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="m">1</span><span class="p">){</span>
+<span class="w">  </span><span class="n">fit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">loess</span><span class="p">(</span><span class="n">face_touching_int</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">iv</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">maskmodeldata</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="n">span</span><span class="p">)</span><span class="o">$</span><span class="n">fitted</span>
+<span class="w">  </span><span class="n">fit</span><span class="p">[</span><span class="n">fit</span><span class="o">&lt;=</span><span class="m">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="c1">#negatives can happen at edges</span>
+<span class="w">  </span><span class="n">logit_of_fit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">logit</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">logit_of_fit</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<span class="n">maskmodeldata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="n">glmer_result</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">face_touching_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">face_touching</span><span class="p">))</span>
+<span class="n">maskmodeldata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maskmodeldata</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">observed_logit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">loess_logit_est2</span><span class="p">(</span><span class="n">duration_of_observation</span><span class="p">))</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">maskmodeldata</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">duration_of_observation</span><span class="p">,</span><span class="w"> </span><span class="n">observed_logit</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">.cooksd</span><span class="p">))</span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_jitter</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;loess&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in hatvalues.merMod(model):
+“the hat matrix may not make sense for GLMMs”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in hatvalues.merMod(model):
+“the hat matrix may not make sense for GLMMs”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`geom_smooth()` using formula = &#39;y ~ x&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“The following aesthetics were dropped during statistical transformation: <span class=" -Color -Color-Green">size</span>
+<span class=" -Color -Color-Cyan">ℹ</span> This can happen when ggplot fails to infer the correct grouping structure in the data.
+<span class=" -Color -Color-Cyan">ℹ</span> Did you forget to specify a `group` aesthetic or to convert a numerical variable into a factor?”
+</pre></div>
+</div>
+<img alt="_images/17-PracticalExamples_58_4.svg" src="_images/17-PracticalExamples_58_4.svg" /></div>
+</div>
+</section>
+<section id="table-17-3">
+<h3>Table 17.3<a class="headerlink" href="#table-17-3" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">effect_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tidy</span><span class="p">(</span><span class="n">glmer_result</span><span class="p">,</span><span class="n">conf.int</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="n">exponentiate</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="n">effects</span><span class="o">=</span><span class="s">&quot;fixed&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">term</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="n">conf.low</span><span class="p">,</span><span class="w"> </span><span class="n">conf.high</span><span class="p">)</span>
+
+<span class="nf">names</span><span class="p">(</span><span class="n">effect_table</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Odds ratio&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;2.5 %&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;97.5 %&#39;</span><span class="p">)</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">effect_table</span><span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;Odds ratios and confidence intervals for the independent variables in the mask wearing study. Note that odds ratios are only presented for the fixed effects; since video segments were modeled as a random effect, that variable is not included.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Odds ratios and confidence intervals for the independent variables in the mask wearing study. Note that odds ratios are only presented for the fixed effects; since video segments were modeled as a random effect, that variable is not included.
+
+|                        | Odds ratio| 2.5 %| 97.5 %|
+|:-----------------------|----------:|-----:|------:|
+|mask_wearingTRUE        |      1.157| 0.703|  1.903|
+|duration_of_observation |      1.030| 1.017|  1.043|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="example-3-asthma-and-air-pollution">
+<h2>Example 3: Asthma and air pollution<a class="headerlink" href="#example-3-asthma-and-air-pollution" title="Permalink to this headline">#</a></h2>
+<section id="prepare-the-data-for-analysis">
+<h3>3. Prepare the data for analysis<a class="headerlink" href="#prepare-the-data-for-analysis" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># asthma data</span>
+<span class="c1"># https://chronicdata.cdc.gov/500-Cities-Places/500-Cities-Census-Tract-level-Data-GIS-Friendly-Fo/5mtz-k78d (for 2014)</span>
+<span class="c1">#</span>
+<span class="c1"># PM2.5 data:</span>
+<span class="c1">#</span>
+<span class="c1"># filtered for 2014 and averaged ds_pm_pred using:</span>
+<span class="c1">#</span>
+<span class="c1"># https://data.cdc.gov/Environmental-Health-Toxicology/Daily-Census-Tract-Level-PM2-5-Concentrations-2011/fcqm-xrf4/data</span>
+
+
+<span class="n">pmdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/CDC_PM2.5_2014/Daily_Census_Tract-Level_PM2.5_mean_2014.csv&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">TractFIPS</span><span class="o">=</span><span class="n">ctfips</span><span class="p">,</span>
+<span class="w">         </span><span class="n">pm25_mean</span><span class="o">=</span><span class="n">ds_pm_pred</span><span class="p">)</span>
+
+<span class="n">asthmadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/500cities_disease/acsdata_with_censusdata.csv&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="nf">ends_with</span><span class="p">(</span><span class="s">&#39;_Crude95CI&#39;</span><span class="p">))</span>
+
+<span class="n">pm_asthma_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">inner_join</span><span class="p">(</span><span class="n">asthmadata</span><span class="p">,</span><span class="w"> </span><span class="n">pmdata</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s">&#39;TractFIPS&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">asthma_prev</span><span class="o">=</span><span class="n">CASTHMA_CrudePrev</span><span class="p">,</span>
+<span class="w">         </span><span class="n">city</span><span class="o">=</span><span class="n">PlaceFIPS</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">MedianIncome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MedianIncome</span><span class="o">/</span><span class="m">1000</span><span class="p">,</span>
+<span class="w">         </span><span class="n">Population2010</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Population2010</span><span class="o">/</span><span class="m">1000</span><span class="p">)</span>
+<span class="w">  </span><span class="c1"># mutate(log_asthma_prev = log(asthma_prev))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">72283</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">2</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (2): ctfips, ds_pm_pred
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">26892</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">66</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (33): StateAbbr, PlaceName, Place_TractID, ACCESS2_Crude95CI, ARTHRITIS_...
+<span class=" -Color -Color-Green">dbl</span> (33): PlaceFIPS, TractFIPS, Population2010, ACCESS2_CrudePrev, ARTHRITIS...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-17-10">
+<h3>Figure 17.10<a class="headerlink" href="#figure-17-10" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">pairs.panels</span><span class="p">(</span><span class="n">pm_asthma_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">pm25_mean</span><span class="p">,</span><span class="w"> </span><span class="n">asthma_prev</span><span class="p">,</span><span class="w"> </span><span class="n">MedianIncome</span><span class="p">,</span><span class="w"> </span><span class="n">MedianAge</span><span class="p">,</span><span class="w"> </span><span class="n">Population2010</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_65_0.svg" src="_images/17-PracticalExamples_65_0.svg" /></div>
+</div>
+<p>standard linear regression model</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm_asthma_pm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">asthma_prev</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pm25_mean</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">MedianIncome</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="n">MedianAge</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Population2010</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">pm_asthma_data</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">lm_asthma_pm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = asthma_prev ~ pm25_mean + MedianIncome + MedianAge + 
+    Population2010, data = pm_asthma_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.1237 -1.2997 -0.2894  1.0326 10.3332 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    12.551556   0.149787  83.796  &lt; 2e-16 ***
+pm25_mean       0.032812   0.006198   5.294  1.2e-07 ***
+MedianIncome   -0.109583   0.002030 -53.969  &lt; 2e-16 ***
+MedianAge       0.004697   0.003908   1.202    0.229    
+Population2010 -0.113642   0.005948 -19.105  &lt; 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.866 on 26676 degrees of freedom
+Multiple R-squared:  0.1372,	Adjusted R-squared:  0.1371 
+F-statistic:  1061 on 4 and 26676 DF,  p-value: &lt; 2.2e-16
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-17-11">
+<h3>Figure 17.11<a class="headerlink" href="#figure-17-11" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="n">lm_asthma_pm</span><span class="p">)</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">model.data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="n">.resid</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_qq</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_qq_line</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_69_0.svg" src="_images/17-PracticalExamples_69_0.svg" /></div>
+</div>
+</section>
+<section id="figure-17-12">
+<h3>Figure 17.12<a class="headerlink" href="#figure-17-12" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model.data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pm_asthma_data</span><span class="o">$</span><span class="n">city</span><span class="p">)</span>
+
+<span class="n">model_means_sorted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model.data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">group_by</span><span class="p">(</span><span class="n">city</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">summarize_all</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">arrange</span><span class="p">(</span><span class="n">.resid</span><span class="p">)</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">model.data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">.resid</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="nf">factor</span><span class="p">(</span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="n">model_means_sorted</span><span class="o">$</span><span class="n">city</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">(</span><span class="n">outlier.size</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">.</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">.</span><span class="m">1</span><span class="p">)</span>
+
+<span class="n">lmer_asthma_pm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">lmer</span><span class="p">(</span><span class="n">asthma_prev</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">pm25_mean</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">MedianAge</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">MedianIncome</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Population2010</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pm25_mean</span><span class="o">|</span><span class="n">city</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">data</span><span class="o">=</span><span class="n">pm_asthma_data</span><span class="p">)</span>
+<span class="n">lmer_asthma_pm_baseline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">lmer_asthma_pm</span><span class="p">,</span><span class="w"> </span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="w"> </span><span class="o">-</span><span class="n">pm25_mean</span><span class="p">)</span>
+
+<span class="n">pm_asthma_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pm_asthma_data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">lmer_resid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">resid</span><span class="p">(</span><span class="n">lmer_asthma_pm</span><span class="p">))</span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">pm_asthma_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lmer_resid</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">city</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">(</span><span class="n">outlier.size</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="n">.</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">.</span><span class="m">1</span><span class="p">)</span>
+
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
+“Model failed to converge with max|grad| = 0.0242659 (tol = 0.002, component 1)”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
+“Model failed to converge with max|grad| = 0.0102508 (tol = 0.002, component 1)”
+</pre></div>
+</div>
+<img alt="_images/17-PracticalExamples_71_2.svg" src="_images/17-PracticalExamples_71_2.svg" /></div>
+</div>
+<p>linear mixed effect model output:</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">lmer_asthma_pm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+lmerModLmerTest]
+Formula: asthma_prev ~ pm25_mean + MedianAge + MedianIncome + Population2010 +  
+    (1 + pm25_mean | city)
+   Data: pm_asthma_data
+
+REML criterion at convergence: 96063.9
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.3329 -0.6247 -0.0829  0.5462  5.4814 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ city     (Intercept) 158.825  12.603        
+          pm25_mean     1.457   1.207   -0.99
+ Residual               1.951   1.397        
+Number of obs: 26681, groups:  city, 494
+
+Fixed effects:
+                 Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)     6.978e+00  1.122e+00  1.770e+02   6.218 3.52e-09 ***
+pm25_mean       3.604e-01  7.181e-02  1.487e+02   5.018 1.47e-06 ***
+MedianAge       4.965e-02  2.823e-02  1.790e+02   1.759   0.0803 .  
+MedianIncome   -1.032e-01  1.430e-02  1.718e+02  -7.219 1.62e-11 ***
+Population2010 -2.712e-02  4.796e-03  2.567e+04  -5.655 1.57e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) pm25_m MednAg MdnInc
+pm25_mean   -0.646                     
+MedianAge   -0.698  0.002              
+MedianIncom  0.098 -0.005 -0.506       
+Popultn2010 -0.017 -0.006  0.010 -0.016
+optimizer (nloptwrap) convergence code: 0 (OK)
+Model failed to converge with max|grad| = 0.0242659 (tol = 0.002, component 1)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="table-17-4">
+<h3>Table 17.4<a class="headerlink" href="#table-17-4" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">ci</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">confint</span><span class="p">(</span><span class="n">lmer_asthma_pm</span><span class="p">)</span>
+<span class="n">lmer_confint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cbind</span><span class="p">(</span><span class="nf">fixef</span><span class="p">(</span><span class="n">lmer_asthma_pm</span><span class="p">),</span><span class="w"> </span><span class="n">ci</span><span class="p">[</span><span class="m">5</span><span class="o">:</span><span class="m">9</span><span class="p">,])[</span><span class="m">2</span><span class="o">:</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="p">]</span>
+
+<span class="nf">kable</span><span class="p">(</span><span class="n">lmer_confint</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Parameter estimates and confidence intervals for regression parameters from mixed effect model of asthma prevalence.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computing profile confidence intervals ...
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Parameter estimates and confidence intervals for regression parameters from mixed effect model of asthma prevalence.
+
+|               |      | 2.5 %| 97.5 %|
+|:--------------|-----:|-----:|------:|
+|pm25_mean      |  0.36|  0.22|   0.50|
+|MedianAge      |  0.05| -0.01|   0.10|
+|MedianIncome   | -0.10| -0.13|  -0.07|
+|Population2010 | -0.03| -0.04|  -0.02|
+</pre></div>
+</div>
+</div>
+</div>
+<p>Compute delta r-squared</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">r.squaredGLMM</span><span class="p">(</span><span class="n">lmer_asthma_pm</span><span class="p">)</span>
+<span class="c1"># r2</span>
+<span class="n">r2_baseline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">r.squaredGLMM</span><span class="p">(</span><span class="n">lmer_asthma_pm_baseline</span><span class="p">)</span>
+<span class="c1"># r2_baseline</span>
+
+<span class="n">delta_r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r2</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r2_baseline</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="c1"># marginal r-squared, reflecting fixed effects only</span>
+<span class="c1"># delta_r2</span>
+
+<span class="n">lmer_asthma_pm_noincome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">lmer_asthma_pm</span><span class="p">,</span><span class="w"> </span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="w"> </span><span class="o">-</span><span class="n">MedianIncome</span><span class="p">)</span>
+<span class="n">r2_noincome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">r.squaredGLMM</span><span class="p">(</span><span class="n">lmer_asthma_pm_noincome</span><span class="p">)</span>
+<span class="n">delta_r2_noincome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r2</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r2_noincome</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="c1"># marginal r-squared, reflecting fixed effects only</span>
+<span class="c1">#delta_r2_noincome</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“&#39;r.squaredGLMM&#39; now calculates a revised statistic. See the help page.”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
+“Model failed to converge with max|grad| = 0.0073298 (tol = 0.002, component 1)”
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="example-4-response-of-plants-to-nitrogen-fertilizers-and-soil-tilling">
+<h2>Example 4: Response of plants to nitrogen fertilizers and soil tilling<a class="headerlink" href="#example-4-response-of-plants-to-nitrogen-fertilizers-and-soil-tilling" title="Permalink to this headline">#</a></h2>
+<section id="prepare-and-visualize-the-data">
+<h3>3. Prepare and visualize the data<a class="headerlink" href="#prepare-and-visualize-the-data" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">fert_data_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">read_delim</span><span class="p">(</span><span class="s">&#39;https://raw.githubusercontent.com/statsthinking21/statsthinking21-figures-data/main/fertilizer/Fertsyntraitsall_Jan27_2008.txt&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">delim</span><span class="o">=</span><span class="s">&#39;\t&#39;</span><span class="p">)</span>
+
+<span class="n">fert_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fert_data_all</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Rawabundmetric</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Grams biomass&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#39;KBS&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">YearFac</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Year</span><span class="p">),</span>
+<span class="w">         </span><span class="n">plotID_common</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plotID</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Fert</span><span class="p">,</span>
+<span class="w">         </span><span class="n">Fert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Fert</span><span class="p">),</span>
+<span class="w">         </span><span class="n">log_rawabund</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="nf">scale</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">Rawabund</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“One or more parsing issues, call `problems()` on your data frame for details, e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">20144</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">25</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;\t&quot;
+<span class=" -Color -Color-Red">chr</span> (18): Site, Experiment, Abbreviation, Other, Species_code, USDA_symbol, ...
+<span class=" -Color -Color-Green">dbl</span>  (7): Year, Fert, block, plotID, Rawabund, Relabund, Plotsize
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-17-13">
+<h3>Figure 17.13<a class="headerlink" href="#figure-17-13" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">ggplot</span><span class="p">(</span><span class="n">fert_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">Rawabund</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&#39;Raw crop abundance&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_82_0.svg" src="_images/17-PracticalExamples_82_0.svg" /></div>
+</div>
+<p>Simple linear model output:</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lm.result_fert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Rawabund</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Fert</span><span class="o">*</span><span class="n">Experiment</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">fert_data</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">lm.result_fert</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Call:
+lm(formula = Rawabund ~ Fert * Experiment + Year, data = fert_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+ -95.64  -48.97  -30.95  -12.65 1284.57 
+
+Coefficients:
+                          Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)              1154.5206  1685.2301   0.685 0.493353    
+Fert1                      57.1985     7.6080   7.518 7.59e-14 ***
+ExperimentUntilled         -5.3171     6.5679  -0.810 0.418266    
+Year                       -0.5602     0.8438  -0.664 0.506796    
+Fert1:ExperimentUntilled  -35.4946     9.9328  -3.573 0.000359 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 124.1 on 2610 degrees of freedom
+Multiple R-squared:  0.03048,	Adjusted R-squared:  0.029 
+F-statistic: 20.52 on 4 and 2610 DF,  p-value: &lt; 2.2e-16
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-17-14">
+<h3>Figure 17.14<a class="headerlink" href="#figure-17-14" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">augment</span><span class="p">(</span><span class="n">lm.result_fert</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">plotID_common</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fert_data</span><span class="o">$</span><span class="n">plotID_common</span><span class="p">,</span>
+<span class="w">         </span><span class="n">Species_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fert_data</span><span class="o">$</span><span class="n">Species_code</span><span class="p">)</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">model.data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="n">.resid</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_qq</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_qq_line</span><span class="p">()</span>
+
+<span class="n">lmer.result_fert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">lmer</span><span class="p">(</span><span class="n">log_rawabund</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Fert</span><span class="o">*</span><span class="n">Experiment</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Year</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Fert</span><span class="o">|</span><span class="n">plotID_common</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Fert</span><span class="o">|</span><span class="n">Species_code</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">fert_data</span><span class="p">)</span>
+
+<span class="n">fert_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fert_data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">lmer_resid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">resid</span><span class="p">(</span><span class="n">lmer.result_fert</span><span class="p">))</span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">fert_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="n">lmer_resid</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_qq</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_qq_line</span><span class="p">()</span>
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17-PracticalExamples_86_0.svg" src="_images/17-PracticalExamples_86_0.svg" /></div>
+</div>
+</section>
+<section id="figure-17-15">
+<h3>Figure 17.15<a class="headerlink" href="#figure-17-15" title="Permalink to this headline">#</a></h3>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model_means_sorted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model.data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">group_by</span><span class="p">(</span><span class="n">Species_code</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">summarize_all</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">arrange</span><span class="p">(</span><span class="n">.resid</span><span class="p">)</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">model.data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">.resid</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="nf">factor</span><span class="p">(</span><span class="n">Species_code</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="n">model_means_sorted</span><span class="o">$</span><span class="n">Species_code</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_boxplot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“There were 264 warnings in `summarise()`.
+The first warning was:
+<span class=" -Color -Color-Cyan">ℹ</span> In argument: `Fert = (new(&quot;standardGeneric&quot;, .Data = function (x, ...) ...`.
+<span class=" -Color -Color-Cyan">ℹ</span> In group 1: `Species_code = &quot;ABUTH&quot;`.
+Caused by warning in `mean.default()`:
+<span class=" -Color -Color-Yellow">!</span> argument is not numeric or logical: returning NA
+<span class=" -Color -Color-Cyan">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 263 remaining warnings.”
+</pre></div>
+</div>
+<img alt="_images/17-PracticalExamples_88_1.svg" src="_images/17-PracticalExamples_88_1.svg" /></div>
+</div>
+<p>Linear mixed effects model output:</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">lmer.result_fert</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+lmerModLmerTest]
+Formula: 
+log_rawabund ~ Fert * Experiment + Year + (1 + Fert | plotID_common) +  
+    (1 + Fert | Species_code)
+   Data: fert_data
+
+REML criterion at convergence: 6458.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.9539 -0.6286  0.1066  0.7031  2.7829 
+
+Random effects:
+ Groups        Name        Variance Std.Dev. Corr 
+ Species_code  (Intercept) 0.30960  0.55642       
+               Fert1       0.07358  0.27126  0.01 
+ plotID_common (Intercept) 0.01571  0.12533       
+               Fert1       0.00420  0.06481  -0.71
+ Residual                  0.61678  0.78535       
+Number of obs: 2615, groups:  Species_code, 132; plotID_common, 12
+
+Fixed effects:
+                           Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)               1.471e+01  1.129e+01  2.547e+03   1.303 0.192682    
+Fert1                     2.825e-01  7.713e-02  3.155e+01   3.662 0.000908 ***
+ExperimentUntilled        3.711e-01  9.278e-02  1.333e+01   4.000 0.001443 ** 
+Year                     -7.643e-03  5.653e-03  2.546e+03  -1.352 0.176498    
+Fert1:ExperimentUntilled -3.261e-01  9.019e-02  2.057e+01  -3.615 0.001665 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) Fert1  ExprmU Year  
+Fert1       -0.012                     
+ExprmntUntl -0.055  0.328              
+Year        -1.000  0.009  0.051       
+Frt1:ExprmU -0.006 -0.717 -0.529  0.009
+</pre></div>
+</div>
+</div>
+</div>
+<p>Effect sizes</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">emm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">emmeans</span><span class="p">(</span><span class="n">lmer.result_fert</span><span class="p">,</span><span class="w"> </span><span class="n">pairwise</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Fert</span><span class="o">*</span><span class="n">Experiment</span><span class="p">)</span>
+<span class="nf">contrast</span><span class="p">(</span><span class="n">emm</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;tukey&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> contrast                        estimate     SE   df t.ratio p.value
+ Fert0 Tilled - Fert1 Tilled      -0.2825 0.0787 33.1  -3.587  0.0056
+ Fert0 Tilled - Fert0 Untilled    -0.3711 0.0932 14.3  -3.983  0.0063
+ Fert0 Tilled - Fert1 Untilled    -0.3275 0.0931 27.9  -3.516  0.0078
+ Fert1 Tilled - Fert0 Untilled    -0.0886 0.1001 36.4  -0.885  0.8126
+ Fert1 Tilled - Fert1 Untilled    -0.0450 0.0897 23.3  -0.502  0.9577
+ Fert0 Untilled - Fert1 Untilled   0.0436 0.0650 19.0   0.671  0.9069
+
+Degrees-of-freedom method: kenward-roger 
+P value adjustment: tukey method for comparing a family of 4 estimates 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Compute delta r-squared values</p>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">lmer.result_fert_noint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">lmer.result_fert</span><span class="p">,</span><span class="w"> </span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="w"> </span><span class="o">-</span><span class="n">Fert</span><span class="o">:</span><span class="n">Experiment</span><span class="p">)</span>
+<span class="n">lmer.result_fert_null</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">lmer.result_fert</span><span class="p">,</span><span class="w"> </span><span class="n">formula</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="w"> </span><span class="o">-</span><span class="n">Fert</span><span class="o">*</span><span class="n">Experiment</span><span class="p">)</span>
+
+<span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">r.squaredGLMM</span><span class="p">(</span><span class="n">lmer.result_fert</span><span class="p">)</span>
+<span class="c1">#r2</span>
+<span class="n">r2_noint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">r.squaredGLMM</span><span class="p">(</span><span class="n">lmer.result_fert_noint</span><span class="p">)</span>
+<span class="c1">#r2_noint</span>
+<span class="n">r2_null</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">r.squaredGLMM</span><span class="p">(</span><span class="n">lmer.result_fert_null</span><span class="p">)</span>
+<span class="c1">#r2_null</span>
+
+<span class="n">delta_r2_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r2</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r2_noint</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="c1"># marginal r-squared, reflecting fixed effects only</span>
+<span class="c1">#delta_r2_int</span>
+
+<span class="n">delta_r2_full</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r2</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r2_null</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="c1"># marginal r-squared, reflecting fixed effects only</span>
+<span class="c1">#delta_r2_full</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="16-MultivariateStats.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Chapter 16: Multivariate statistics</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="18-DoingReproducibleResearch.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 18: Doing reproducible research</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Russell Poldrack<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
