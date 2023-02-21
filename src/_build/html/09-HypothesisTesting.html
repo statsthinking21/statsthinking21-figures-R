@@ -1,0 +1,1099 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Chapter 9: Hypothesis testing &#8212; R Code and figures for Statistical Thinking: Analyzing Data in an Uncertain World</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapter 10: Quantifying effects and designing studies" href="10-ConfIntEffectSize.html" />
+    <link rel="prev" title="Chapter 8: Resampling and simulation" href="08-Resampling.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">R Code and figures for Statistical Thinking: Analyzing Data in an Uncertain World</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    <no title>
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Intro.html">
+   Chapter 1: Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-Data.html">
+   Chapter 2: Working with data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-SummarizingData.html">
+   Chapter 3: Summarizing data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-VisualizingData.html">
+   Chapter 4: Data Visualization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-FittingModels.html">
+   Chapter 5: Fitting models to data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Probability.html">
+   Chapter 6: Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="07-Sampling.html">
+   Chapter 7: Sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-Resampling.html">
+   Chapter 8: Resampling and simulation
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 9: Hypothesis testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10-ConfIntEffectSize.html">
+   Chapter 10: Quantifying effects and designing studies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="11-BayesianStatistics.html">
+   Chapter 11: Bayesian statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="12-CategoricalRelationships.html">
+   Chapter 12: Modeling categorical relationships
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="13-ContinuousRelationships.html">
+   Chapter 13: Modeling continuous relationships
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="14-GeneralLinearModel.html">
+   Chapter 14: The General Linear Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="15-ComparingMeans.html">
+   Chapter 15: Comparing means
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="16-MultivariateStats.html">
+   Chapter 16: Multivariate statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="17-PracticalExamples.html">
+   Chapter 17: Practical statistical modeling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="18-DoingReproducibleResearch.html">
+   Chapter 18: Doing reproducible research
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/09-HypothesisTesting.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/09-HypothesisTesting.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-9-1">
+   Table 9.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-1">
+   Figure 9.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-2">
+   Figure 9.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-3">
+   Figure 9.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-9-2">
+   Table 9.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-4">
+   Figure 9.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#two-group-t-test">
+   Two-group t-test:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-5">
+   Figure 9.5
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-6">
+   Figure 9.6
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-7">
+   Figure 9.7
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-8">
+   Figure 9.8
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Chapter 9: Hypothesis testing</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-9-1">
+   Table 9.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-1">
+   Figure 9.1
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-2">
+   Figure 9.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-3">
+   Figure 9.3
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#table-9-2">
+   Table 9.2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-4">
+   Figure 9.4
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#two-group-t-test">
+   Two-group t-test:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-5">
+   Figure 9.5
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-6">
+   Figure 9.6
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-7">
+   Figure 9.7
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#figure-9-8">
+   Figure 9.8
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-9-hypothesis-testing">
+<h1>Chapter 9: Hypothesis testing<a class="headerlink" href="#chapter-9-hypothesis-testing" title="Permalink to this headline">#</a></h1>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">cowplot</span><span class="p">)</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123456</span><span class="p">)</span><span class="w"> </span><span class="c1"># set random seed to exactly replicate results</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
+<span class="nf">theme_set</span><span class="p">(</span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">))</span>
+
+<span class="c1"># load the NHANES data library</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">NHANES</span><span class="p">)</span>
+
+<span class="c1"># drop duplicated IDs within the NHANES dataset</span>
+<span class="n">NHANES</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">NHANES</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">distinct</span><span class="p">(</span><span class="n">ID</span><span class="p">,</span><span class="n">.keep_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="n">NHANES_adult</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">NHANES</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">drop_na</span><span class="p">(</span><span class="n">PhysActive</span><span class="p">,</span><span class="n">BMI</span><span class="p">,</span><span class="w"> </span><span class="n">BPSysAve</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">subset</span><span class="p">(</span><span class="n">Age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching packages</span> ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.2 ──
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2</span> 3.4.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr  </span> 1.0.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble </span> 3.1.8     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr  </span> 1.1.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr  </span> 1.3.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr</span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr  </span> 2.1.4     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats</span> 1.0.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+</pre></div>
+</div>
+</div>
+</div>
+<section id="table-9-1">
+<h2>Table 9.1<a class="headerlink" href="#table-9-1" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># sample 250 adults from NHANES and compute mean BP separately for active</span>
+<span class="c1"># and inactive individuals</span>
+
+<span class="n">sampSize</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">250</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">12345</span><span class="p">)</span>
+<span class="n">NHANES_sample</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">NHANES_adult</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">HealthGenNum</span><span class="o">=</span><span class="nf">recode</span><span class="p">(</span><span class="n">HealthGen</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Poor&#39;</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Fair&#39;</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Good&#39;</span><span class="o">=</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Vgood&#39;</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Excellent&#39;</span><span class="o">=</span><span class="m">5</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">sample_n</span><span class="p">(</span><span class="n">sampSize</span><span class="p">)</span>
+
+<span class="n">sampleSummary</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">NHANES_sample</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">PhysActive</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">summarize</span><span class="p">(</span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">BPSysAve</span><span class="p">),</span>
+<span class="w">    </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">BPSysAve</span><span class="p">),</span>
+<span class="w">    </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">BPSysAve</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="c1"># calculate the mean difference in BP between active</span>
+<span class="c1"># and inactive individuals; we&#39;ll use this later to calculate the t-statistic</span>
+<span class="n">meanDiff</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">sampleSummary</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">select</span><span class="p">(</span>
+<span class="w">    </span><span class="n">PhysActive</span><span class="p">,</span>
+<span class="w">    </span><span class="n">mean</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">spread</span><span class="p">(</span><span class="n">PhysActive</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">meanDiff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Yes</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">pull</span><span class="p">(</span><span class="n">meanDiff</span><span class="p">)</span>
+
+<span class="c1"># calculate the summed variances in BP for active</span>
+<span class="c1"># and inactive individuals; we&#39;ll use this later to calculate the t-statistic</span>
+<span class="n">sumVariance</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="n">sampleSummary</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">select</span><span class="p">(</span>
+<span class="w">    </span><span class="n">PhysActive</span><span class="p">,</span>
+<span class="w">    </span><span class="n">N</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sd</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">gather</span><span class="p">(</span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="o">:</span><span class="n">sd</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">unite</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="w"> </span><span class="n">PhysActive</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">spread</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">sumVariance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">No_sd</span><span class="o">**</span><span class="m">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">No_N</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Yes_sd</span><span class="o">**</span><span class="m">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">Yes_N</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">pull</span><span class="p">(</span><span class="n">sumVariance</span><span class="p">)</span>
+
+<span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sampleSummary</span><span class="o">$</span><span class="n">sd</span><span class="p">[</span><span class="m">1</span><span class="p">]</span>
+<span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sampleSummary</span><span class="o">$</span><span class="n">sd</span><span class="p">[</span><span class="m">2</span><span class="p">]</span>
+<span class="n">n1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sampleSummary</span><span class="o">$</span><span class="n">N</span><span class="p">[</span><span class="m">1</span><span class="p">]</span>
+<span class="n">n2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sampleSummary</span><span class="o">$</span><span class="n">N</span><span class="p">[</span><span class="m">2</span><span class="p">]</span>
+
+<span class="n">welch_df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="o">/</span><span class="n">n1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s2</span><span class="o">/</span><span class="n">n2</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">((</span><span class="n">s1</span><span class="o">/</span><span class="n">n1</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="o">/</span><span class="p">(</span><span class="n">n1</span><span class="m">-1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">s2</span><span class="o">/</span><span class="n">n2</span><span class="p">)</span><span class="o">**</span><span class="m">2</span><span class="o">/</span><span class="p">(</span><span class="n">n2</span><span class="m">-1</span><span class="p">))</span>
+
+<span class="c1"># print sampleSummary table</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">sampleSummary</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">4</span><span class="p">,</span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Summary of blood pressure data for active versus inactive individuals&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Summary of blood pressure data for active versus inactive individuals
+
+|PhysActive |   N|     mean|      sd|
+|:----------|---:|--------:|-------:|
+|No         | 126| 123.8810| 20.8052|
+|Yes        | 124| 119.3226| 17.1486|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-9-1">
+<h2>Figure 9.1<a class="headerlink" href="#figure-9-1" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">ggplot</span><span class="p">(</span><span class="n">NHANES_sample</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">PhysActive</span><span class="p">,</span><span class="n">BPSysAve</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&#39;Physically active?&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;Average systolic blood pressure&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/09-HypothesisTesting_5_0.svg" src="_images/09-HypothesisTesting_5_0.svg" /></div>
+</div>
+</section>
+<section id="figure-9-2">
+<h2>Figure 9.2<a class="headerlink" href="#figure-9-2" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">distDfNormal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">seq</span><span class="p">(</span><span class="m">-4</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">0.01</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">normal</span><span class="o">=</span><span class="nf">dnorm</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">Distribution</span><span class="o">=</span><span class="s">&#39;Normal&#39;</span><span class="p">)</span>
+<span class="n">distDft4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">seq</span><span class="p">(</span><span class="m">-4</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">0.01</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">normal</span><span class="o">=</span><span class="nf">dt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">=</span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">Distribution</span><span class="o">=</span><span class="s">&#39;t (df=4)&#39;</span><span class="p">)</span>
+<span class="n">distDft1000</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">seq</span><span class="p">(</span><span class="m">-4</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">0.01</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">normal</span><span class="o">=</span><span class="nf">dt</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">=</span><span class="m">1000</span><span class="p">),</span><span class="w"> </span><span class="n">Distribution</span><span class="o">=</span><span class="s">&#39;t (df=1000)&#39;</span><span class="p">)</span>
+
+<span class="n">legendsize</span><span class="o">=</span><span class="m">16</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">rbind</span><span class="p">(</span><span class="n">distDfNormal</span><span class="p">,</span><span class="w"> </span><span class="n">distDft4</span><span class="p">),</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">Distribution</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">linetype</span><span class="o">=</span><span class="n">Distribution</span><span class="p">),</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&#39;df = 4&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;density&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylim</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">0.8</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">legendsize</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">legendsize</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">rbind</span><span class="p">(</span><span class="n">distDfNormal</span><span class="p">,</span><span class="w"> </span><span class="n">distDft1000</span><span class="p">),</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">Distribution</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">linetype</span><span class="o">=</span><span class="n">Distribution</span><span class="p">),</span><span class="w"> </span><span class="n">linewidth</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&#39;df = 1000&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;density&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylim</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">14</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">0.8</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">legendsize</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">legendsize</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/09-HypothesisTesting_7_0.svg" src="_images/09-HypothesisTesting_7_0.svg" /></div>
+</div>
+</section>
+<section id="figure-9-3">
+<h2>Figure 9.3<a class="headerlink" href="#figure-9-3" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate tossing of 100,000 flips of 100 coins to identify empirical</span>
+<span class="c1"># probability of 70 or more heads out of 100 flips</span>
+
+<span class="c1"># create function to toss coins</span>
+<span class="n">tossCoins</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">flips</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">flips</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="c1"># compute the probability of 69 or fewer heads, when P(heads)=0.5</span>
+<span class="n">p_lt_70</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">pbinom</span><span class="p">(</span><span class="m">69</span><span class="p">,</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
+
+<span class="c1"># the probability of 70 or more heads is simply the complement of p_lt_70</span>
+<span class="n">p_ge_70</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p_lt_70</span>
+
+<span class="c1"># use a large number of replications since this is fast</span>
+<span class="n">coinFlips</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="m">100000</span><span class="p">,</span><span class="w"> </span><span class="nf">tossCoins</span><span class="p">())</span>
+
+<span class="n">p_ge_70_sim</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">coinFlips</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">70</span><span class="p">)</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">coinFlips</span><span class="p">),</span><span class="nf">aes</span><span class="p">(</span><span class="n">coinFlips</span><span class="p">))</span><span class="w">  </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="m">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/09-HypothesisTesting_9_0.svg" src="_images/09-HypothesisTesting_9_0.svg" /></div>
+</div>
+</section>
+<section id="table-9-2">
+<h2>Table 9.2<a class="headerlink" href="#table-9-2" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate simulated data for squatting ability across football players</span>
+<span class="c1"># and cross country runners</span>
+
+<span class="c1"># reset random seed for this example</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span>
+
+<span class="c1"># create a function to round values to nearest product of 5,</span>
+<span class="c1"># to keep example simple</span>
+<span class="n">roundToNearest5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">base</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">base</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="c1"># create and show data frame containing simulated data</span>
+<span class="n">squatDf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">  </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="s">&quot;FB&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">),</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="s">&quot;XC&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">))),</span>
+<span class="w">  </span><span class="n">squat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">roundToNearest5</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">140</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">squatDf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">squatDf</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">shuffledSquat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">squat</span><span class="p">))</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">squatDf</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s">&#39;Squatting data for the two groups&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Table: Squatting data for the two groups
+
+|group | squat| shuffledSquat|
+|:-----|-----:|-------------:|
+|FB    |   265|           125|
+|FB    |   310|           230|
+|FB    |   335|           125|
+|FB    |   230|           315|
+|FB    |   315|           115|
+|XC    |   155|           335|
+|XC    |   125|           155|
+|XC    |   125|           125|
+|XC    |   125|           265|
+|XC    |   115|           310|
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-9-4">
+<h2>Figure 9.4<a class="headerlink" href="#figure-9-4" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">squatDf</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">group</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">squat</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;max squat (lbs)&#39;</span><span class="p">)</span>
+
+<span class="c1"># create a scrambled version of the group membership variable</span>
+
+
+<span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">squatDf</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">group</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">shuffledSquat</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;max squat (lbs)&#39;</span><span class="p">)</span>
+
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/09-HypothesisTesting_13_0.svg" src="_images/09-HypothesisTesting_13_0.svg" /></div>
+</div>
+</section>
+<section id="two-group-t-test">
+<h2>Two-group t-test:<a class="headerlink" href="#two-group-t-test" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute and print t statistic comparing two groups</span>
+
+<span class="n">tt</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">t.test</span><span class="p">(</span>
+<span class="w">    </span><span class="n">squat</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">group</span><span class="p">,</span>
+<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">squatDf</span><span class="p">,</span>
+<span class="w">    </span><span class="n">alternative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;greater&quot;</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>	Welch Two Sample t-test
+
+data:  squat by group
+t = 8.0055, df = 4.9964, p-value = 0.0002465
+alternative hypothesis: true difference in means between group FB and group XC is greater than 0
+95 percent confidence interval:
+ 121.2168      Inf
+sample estimates:
+mean in group FB mean in group XC 
+             291              129 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="figure-9-5">
+<h2>Figure 9.5<a class="headerlink" href="#figure-9-5" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># shuffle data 10,000 times and compute distribution of t values</span>
+
+<span class="n">nRuns</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">10000</span>
+
+<span class="n">shuffleAndMeasure</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">dfScram</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">    </span><span class="n">df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">      </span><span class="n">squat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">squat</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="n">tt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t.test</span><span class="p">(</span>
+<span class="w">    </span><span class="n">squat</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">group</span><span class="p">,</span>
+<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dfScram</span><span class="p">,</span>
+<span class="w">    </span><span class="n">alternative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;greater&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">var.equal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">tt</span><span class="o">$</span><span class="n">statistic</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">shuffleDiff</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="n">nRuns</span><span class="p">,</span><span class="w"> </span><span class="nf">shuffleAndMeasure</span><span class="p">(</span><span class="n">squatDf</span><span class="p">))</span>
+
+<span class="c1"># compute p value using randomization</span>
+<span class="n">pvalRandomization</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">shuffleDiff</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tt</span><span class="o">$</span><span class="n">statistic</span><span class="p">)</span>
+
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">shuffleDiff</span><span class="p">),</span><span class="nf">aes</span><span class="p">(</span><span class="n">shuffleDiff</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="nf">after_stat</span><span class="p">(</span><span class="n">density</span><span class="p">)),</span><span class="n">bins</span><span class="o">=</span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tt</span><span class="o">$</span><span class="n">statistic</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&#39;t values after random shuffling&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">stat_function</span><span class="p">(</span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="m">1.5</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dotted&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/09-HypothesisTesting_17_0.svg" src="_images/09-HypothesisTesting_17_0.svg" /></div>
+</div>
+</section>
+<section id="figure-9-6">
+<h2>Figure 9.6<a class="headerlink" href="#figure-9-6" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># create function to shuffle BP data</span>
+
+<span class="n">shuffleBPstat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">bpDataShuffled</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">    </span><span class="n">NHANES_sample</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="n">BPSysAve</span><span class="p">,</span><span class="w"> </span><span class="n">PhysActive</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">      </span><span class="n">BPSysAve</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">BPSysAve</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="c1"># compute the difference</span>
+<span class="w">  </span><span class="n">simResult</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t.test</span><span class="p">(</span>
+<span class="w">    </span><span class="n">BPSysAve</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">PhysActive</span><span class="p">,</span>
+<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bpDataShuffled</span><span class="p">,</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">simResult</span><span class="o">$</span><span class="n">statistic</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># run function 5000 times and save output</span>
+
+<span class="n">nRuns</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">5000</span>
+<span class="n">meanDiffSimDf</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="n">meanDiffSim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="n">nRuns</span><span class="p">,</span><span class="w"> </span><span class="nf">shuffleBPstat</span><span class="p">())</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="c1"># compute the empirical probability of t values larger than observed</span>
+<span class="c1"># value under the randomization null</span>
+<span class="n">bpTTest</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">t.test</span><span class="p">(</span>
+<span class="w">  </span><span class="n">BPSysAve</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">PhysActive</span><span class="p">,</span>
+<span class="w">  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NHANES_sample</span><span class="p">,</span>
+<span class="w">  </span><span class="n">alternative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;greater&quot;</span>
+<span class="p">)</span>
+
+<span class="n">bpPvalRand</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">mean</span><span class="p">(</span><span class="n">meanDiffSimDf</span><span class="o">$</span><span class="n">meanDiffSim</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">bpTTest</span><span class="o">$</span><span class="n">statistic</span><span class="p">)</span>
+
+<span class="n">meanDiffSimDf</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">meanDiffSim</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">200</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bpTTest</span><span class="o">$</span><span class="n">statistic</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;blue&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&quot;T stat: BP difference between groups&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span>
+<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meanDiffSimDf</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">      </span><span class="nf">filter</span><span class="p">(</span><span class="n">meanDiffSim</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">bpTTest</span><span class="o">$</span><span class="n">statistic</span><span class="p">),</span>
+<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">meanDiffSim</span><span class="p">),</span>
+<span class="w">    </span><span class="n">bins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">200</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;gray&quot;</span>
+<span class="w">  </span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/09-HypothesisTesting_19_0.svg" src="_images/09-HypothesisTesting_19_0.svg" /></div>
+</div>
+</section>
+<section id="figure-9-7">
+<h2>Figure 9.7<a class="headerlink" href="#figure-9-7" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># create simulated data for BP reduction trial</span>
+
+<span class="n">exerciseTrial</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">nPerGroup</span><span class="p">,</span><span class="w"> </span><span class="n">bpReduction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1"># mean and SD on NHANES adult dataset</span>
+<span class="w">  </span><span class="n">bp_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">NHANES</span><span class="o">$</span><span class="n">BPSysAve</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="w">  </span><span class="n">bp_sd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">NHANES</span><span class="o">$</span><span class="n">BPSysAve</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="w">  </span><span class="c1"># create data</span>
+<span class="w">  </span><span class="n">controlGroup</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">nPerGroup</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">bp_sd</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bp_mean</span>
+<span class="w">  </span><span class="n">expGroup</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">nPerGroup</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">bp_sd</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bp_mean</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bpReduction</span>
+<span class="w">  </span><span class="n">ttResult</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t.test</span><span class="p">(</span><span class="n">expGroup</span><span class="p">,</span><span class="w"> </span><span class="n">controlGroup</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span>
+<span class="w">    </span><span class="n">nPerGroup</span><span class="p">,</span><span class="w"> </span><span class="n">bpReduction</span><span class="p">,</span><span class="w"> </span><span class="n">ttResult</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">diff</span><span class="p">(</span><span class="n">ttResult</span><span class="o">$</span><span class="n">estimate</span><span class="p">)</span>
+<span class="w">  </span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">nRuns</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span>
+<span class="n">sampSizes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span><span class="o">**</span><span class="nf">seq</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="m">17</span><span class="p">)</span><span class="w"> </span><span class="c1"># powers of 2</span>
+
+<span class="n">simResults</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">()</span><span class="w"> </span><span class="c1">## create an empty list to add results onto</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">sampSizes</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">tmpResults</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">nRuns</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">exerciseTrial</span><span class="p">(</span><span class="n">sampSizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">bpReduction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.</span><span class="m">5</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="n">summaryResults</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">    </span><span class="n">tmpResults</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">tmpResults</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">],</span>
+<span class="w">    </span><span class="nf">sum</span><span class="p">(</span><span class="n">tmpResults</span><span class="p">[</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">),</span>
+<span class="w">    </span><span class="nf">mean</span><span class="p">(</span><span class="n">tmpResults</span><span class="p">[</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="p">])</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="n">simResults</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">simResults</span><span class="p">,</span><span class="w"> </span><span class="n">summaryResults</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+<span class="n">simResultsDf</span><span class="w"> </span><span class="o">&lt;-</span>
+<span class="w">  </span><span class="nf">as_tibble</span><span class="p">(</span><span class="n">simResults</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span>
+<span class="w">    </span><span class="n">sampleSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V1</span><span class="p">,</span>
+<span class="w">    </span><span class="n">effectSizeLbs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V2</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nSigResults</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V3</span><span class="p">,</span>
+<span class="w">    </span><span class="n">meanEffect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V4</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">pSigResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nSigResults</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">nRuns</span><span class="p">)</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">simResultsDf</span><span class="p">,</span><span class="nf">aes</span><span class="p">(</span><span class="n">sampleSize</span><span class="p">,</span><span class="n">pSigResult</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_x_continuous</span><span class="p">(</span><span class="n">trans</span><span class="o">=</span><span class="s">&#39;log2&#39;</span><span class="p">,</span><span class="n">breaks</span><span class="o">=</span><span class="n">simResultsDf</span><span class="o">$</span><span class="n">sampleSize</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="w"> </span><span class="n">angle</span><span class="o">=</span><span class="m">45</span><span class="p">,</span><span class="n">vjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ylim</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">ylab</span><span class="p">(</span><span class="s">&#39;Proportion of significant results&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="s">&#39;sample size per group&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w">   </span><span class="nf">element_line</span><span class="p">(</span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;gray&quot;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="m">0.25</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="n">linetype</span><span class="o">=</span><span class="s">&#39;dashed&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.
+<span class=" -Color -Color-Cyan">ℹ</span> Using compatibility `.name_repair`.”
+</pre></div>
+</div>
+<img alt="_images/09-HypothesisTesting_21_1.svg" src="_images/09-HypothesisTesting_21_1.svg" /></div>
+</div>
+</section>
+<section id="figure-9-8">
+<h2>Figure 9.8<a class="headerlink" href="#figure-9-8" title="Permalink to this headline">#</a></h2>
+<div class="cell tag_report_output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
+<span class="c1"># simulate 1500 studies with 10,000 tests each, thresholded at p &lt; .05</span>
+
+<span class="n">nRuns</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="c1"># number of simulated studies to run</span>
+<span class="n">nTests</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="c1"># number of simulated genes to test in each run</span>
+
+<span class="n">uncAlpha</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="c1"># alpha level</span>
+
+<span class="n">uncOutcome</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="n">nRuns</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">nTests</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nf">qnorm</span><span class="p">(</span><span class="n">uncAlpha</span><span class="p">)))</span>
+
+<span class="c1">#sprintf(&quot;mean proportion of significant tests per run: %0.2f&quot;, mean(uncOutcome) / nTests)</span>
+
+<span class="c1"># compute proportion of studies with at least one false positive result,</span>
+<span class="c1"># known as the familywise error rate</span>
+<span class="c1">#sprintf(&quot;familywise error rate: %0.3f&quot;, mean(uncOutcome &gt; 0))</span>
+
+<span class="c1"># compute Bonferroni-corrected alpha</span>
+<span class="n">corAlpha</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.05</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">nTests</span>
+
+<span class="n">corOutcome</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="n">nRuns</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">nTests</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="nf">qnorm</span><span class="p">(</span><span class="n">corAlpha</span><span class="p">))))</span>
+
+<span class="c1"># sprintf(&quot;corrected familywise error rate: %0.3f&quot;, mean(corOutcome &gt; 0))</span>
+
+<span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">nsig</span><span class="o">=</span><span class="n">uncOutcome</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">nsig</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="nf">sprintf</span><span class="p">(</span><span class="s">&#39;Number of significant results (out of %d)&#39;</span><span class="p">,</span><span class="n">nTests</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1.5</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;cm&quot;</span><span class="p">))</span>
+
+<span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">nsig</span><span class="o">=</span><span class="n">corOutcome</span><span class="p">),</span><span class="nf">aes</span><span class="p">(</span><span class="n">nsig</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">xlab</span><span class="p">(</span><span class="nf">sprintf</span><span class="p">(</span><span class="s">&#39;Number of significant results (out of %d)&#39;</span><span class="p">,</span><span class="n">nTests</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;cm&quot;</span><span class="p">))</span>
+
+<span class="nf">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/09-HypothesisTesting_23_0.svg" src="_images/09-HypothesisTesting_23_0.svg" /></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="08-Resampling.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Chapter 8: Resampling and simulation</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="10-ConfIntEffectSize.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 10: Quantifying effects and designing studies</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Russell Poldrack<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
